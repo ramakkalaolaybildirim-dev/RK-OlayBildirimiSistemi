@@ -3203,28 +3203,27 @@
 
       if (isGasIframe) {
         try {
-          const iconCv = document.createElement('canvas');
-          iconCv.width = 192; iconCv.height = 192;
-          const ictx = iconCv.getContext('2d');
-          ictx.fillStyle = '#062f4d'; ictx.fillRect(0, 0, 192, 192);
-          ictx.strokeStyle = '#ee7d22'; ictx.lineWidth = 10;
-          ictx.strokeRect(18, 18, 156, 156);
-          ictx.fillStyle = '#ffffff'; ictx.font = 'bold 64px Arial, sans-serif';
-          ictx.textAlign = 'center'; ictx.textBaseline = 'middle';
-          ictx.fillText('İSG', 96, 98);
-          const iconUri = iconCv.toDataURL('image/png');
+          const basePwa = 'https://samilyildrm-cloud.github.io/ramak-kala/';
           const manifest = {
             name: 'Ramak Kala İSG Bildirim Sistemi',
             short_name: 'Ramak Kala',
-            start_url: window.location.href,
+            start_url: basePwa,
             display: 'standalone',
             background_color: '#062f4d',
             theme_color: '#062f4d',
-            icons: [{ src: iconUri, sizes: '192x192', type: 'image/png' }]
+            icons: [
+              { src: basePwa + 'icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+              { src: basePwa + 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+              { src: basePwa + 'icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+            ]
           };
           const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
           const link = $('#pwaManifestLink');
           if (link) link.href = URL.createObjectURL(blob);
+          const iconEl = document.querySelector('link[rel="icon"]');
+          if (iconEl) iconEl.href = basePwa + 'icon-192.png';
+          const appleEl = document.querySelector('link[rel="apple-touch-icon"]');
+          if (appleEl) appleEl.href = basePwa + 'apple-touch-icon.png';
         } catch {}
         return;
       }
@@ -5757,5 +5756,5 @@
       }
     } catch(e) {}
   </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5f8c160eecddc96',t:'MTc5NTUyNjg5MQ=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5f8c160eecddc96',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5f8df245d963a7f',t:'MTc5NTUyODExMA=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5f8df245d963a7f',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
