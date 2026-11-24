@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#062f4d">
+  <title>Çelikler Holding | Ramak Kala Bildirim Sistemi</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell" id="employeeApp">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Çelikler Holding ana sayfa">
+        <img src="/api/branding/logo" alt="Çelikler Holding" data-brand-logo>
+        <span class="brand-divider"></span>
+        <span class="brand-product">İSG Bildirim Sistemi</span>
+      </a>
+      <div class="top-actions">
+        <span class="secure-pill"><span class="dot"></span> Güvenli bildirim</span>
+        <button class="admin-link" id="adminOpen" type="button" aria-label="Yönetici panelini aç">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a5 5 0 0 1 5 5v2h1a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-7a3 3 0 0 1 3-3h1V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v2h6V7a3 3 0 0 0-3-3Zm0 9a2 2 0 0 0-1 3.73V19h2v-2.27A2 2 0 0 0 12 13Z"/></svg>
+          Yönetici girişi
+        </button>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <div class="eyebrow"><span></span> ÇELİKLER HOLDİNG</div>
+          <h1>Ramak Kala<br><em>Bildirim Sistemi</em></h1>
+          <p class="hero-lead">Bir tehlikeyi fark etmek, bir hayatı kurtarabilir.</p>
+          <p class="hero-sub">Henüz kaza olmadıysa, önlemek için hâlâ zamanımız var.</p>
+          <div class="motto"><span>Fark Et.</span><span>Bildir.</span><span>Önleyelim.</span></div>
+        </div>
+        <aside class="hero-assurance">
+          <div class="assurance-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2 20 5v6c0 5.2-3.4 9.9-8 11-4.6-1.1-8-5.8-8-11V5l8-3Zm0 3.1L7 7v4c0 3.7 2.2 7.1 5 8 2.8-.9 5-4.3 5-8V7l-5-1.9Zm-.9 9.9-2.6-2.6 1.4-1.4 1.2 1.2 3.2-3.2 1.4 1.4-4.6 4.6Z"/></svg>
+          </div>
+          <div>
+            <strong>Kimliğinizi paylaşmak zorunda değilsiniz</strong>
+            <p>Bildirimlerinizi anonim gönderebilir, yalnızca tehlikenin giderilmesine katkı sağlayabilirsiniz.</p>
+          </div>
+        </aside>
+      </section>
+
+      <section class="form-wrap" id="bildirim-formu">
+        <div class="form-head">
+          <div>
+            <span class="section-kicker">YENİ BİLDİRİM</span>
+            <h2>Gördüğünüz tehlikeyi bize bildirin</h2>
+            <p>Üyelik veya parola gerekmeden formu yaklaşık 2 dakikada tamamlayabilirsiniz.</p>
+          </div>
+          <div class="form-progress"><b>1</b><span>Hızlı İSG Bildirimi</span></div>
+        </div>
+
+        <form id="reportForm" novalidate>
+          <div class="form-section">
+            <div class="section-title"><span>01</span><div><h3>Olay bilgileri</h3><p>Olayın nerede ve ne zaman gerçekleştiğini belirtin.</p></div></div>
+            <div class="grid grid-3">
+              <label class="field"><span>Olay tarihi <b>*</b></span><input type="date" name="eventDate" required></label>
+              <label class="field"><span>Olay saati <b>*</b></span><input type="time" name="eventTime" required></label>
+              <label class="field"><span>Olay Yeri <b>*</b></span>
+                <select name="department" id="departmentSelect" required>
+                  <option value="">Olay yeri seçin</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-title"><span>02</span><div><h3>Olay türü</h3><p>Durumu en iyi tanımlayan seçeneği işaretleyin.</p></div></div>
+            <div class="type-grid" id="typeGrid">
+              <label class="type-card"><input type="radio" name="eventType" value="Güvensiz davranış" required><span class="type-icon">GD</span><span>Güvensiz davranış</span><i></i></label>
+              <label class="type-card"><input type="radio" name="eventType" value="Güvensiz durum"><span class="type-icon">GU</span><span>Güvensiz durum</span><i></i></label>
+              <label class="type-card"><input type="radio" name="eventType" value="Ramak kala"><span class="type-icon">RK</span><span>Ramak kala</span><i></i></label>
+              <label class="type-card"><input type="radio" name="eventType" value="Yangın veya yangın tehlikesi"><span class="type-icon">YN</span><span>Yangın veya yangın tehlikesi</span><i></i></label>
+              <label class="type-card"><input type="radio" name="eventType" value="Ekipman veya makine kaynaklı tehlike"><span class="type-icon">EM</span><span>Ekipman veya makine kaynaklı</span><i></i></label>
+              <label class="type-card"><input type="radio" name="eventType" value="Elektrik kaynaklı tehlike"><span class="type-icon">EL</span><span>Elektrik kaynaklı tehlike</span><i></i></label>
+              <label class="type-card"><input type="radio" name="eventType" value="Yüksekte çalışma"><span class="type-icon">YÇ</span><span>Yüksekte çalışma</span><i></i></label>
+              <label class="type-card"><input type="radio" name="eventType" value="Kayma, takılma ve düşme tehlikesi"><span class="type-icon">KT</span><span>Kayma, takılma ve düşme</span><i></i></label>
+              <label class="type-card"><input type="radio" name="eventType" value="Kimyasal madde kaynaklı tehlike"><span class="type-icon">KM</span><span>Kimyasal madde kaynaklı</span><i></i></label>
+              <label class="type-card"><input type="radio" name="eventType" value="Diğer"><span class="type-icon">Dİ</span><span>Diğer</span><i></i></label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-title"><span>03</span><div><h3>Durumu anlatın</h3><p>Kısa ve açık bir anlatım, tehlikeyi daha hızlı gidermemizi sağlar.</p></div></div>
+            <div class="grid grid-2 text-grid">
+              <label class="field field-full"><span>Olayın açıklaması <b>*</b></span><textarea name="description" rows="5" maxlength="2000" required placeholder="Ne oldu? Tehlikeyi nerede ve nasıl fark ettiniz?"></textarea><small><button type="button" class="example-btn" id="exampleBtn">Örnek açıklamayı göster</button><span class="char-count">0 / 2000</span></small></label>
+              <label class="field"><span>Olası tehlike veya risk <b>*</b></span><textarea name="risk" rows="3" required placeholder="Örn. Kayma ve düşme riski"></textarea></label>
+              <label class="field"><span>Olası sonuç <b>*</b></span><textarea name="outcome" rows="3" required placeholder="Örn. Yaralanma, ekipman hasarı"></textarea></label>
+              <label class="field field-full"><span>Alınan veya alınması gereken önlem <b>*</b></span><textarea name="measure" rows="3" required placeholder="Sizce hangi önlem alınmalı?"></textarea></label>
+            </div>
+            <div class="example-box" id="exampleBox"><b>Örnek açıklama</b><p>“Çalışma alanında yerde bulunan yağ nedeniyle kayma tehlikesi oluştu. Çalışan kaymak üzereyken dengesini sağlayarak düşmekten kurtuldu. Alanın temizlenmesi ve gerekli uyarı işaretlerinin yerleştirilmesi gerekmektedir.”</p><button type="button" id="useExample">Bu örneği kullan</button></div>
+          </div>
+
+          <div class="form-section">
+            <div class="section-title"><span>04</span><div><h3>Fotoğraf ve bildirim tercihi</h3><p>Fotoğraf ve isim bilgisi isteğe bağlıdır.</p></div></div>
+            <div class="upload-identity">
+              <div class="upload-box" id="uploadBox">
+                <input type="file" id="photo" accept="image/jpeg,image/png,image/webp" hidden>
+                <div class="upload-icon"><svg viewBox="0 0 24 24"><path d="M19 5h-3.2l-1.4-2h-4.8L8.2 5H5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3Zm-7 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></svg></div>
+                <div><strong>Fotoğraf ekleyin <span>İsteğe bağlı</span></strong><p>Dosyayı sürükleyin veya <button type="button" id="choosePhoto">cihazınızdan seçin</button></p><small>JPG, PNG veya WEBP · En fazla 10 MB</small></div>
+                <div class="photo-preview" id="photoPreview"></div>
+              </div>
+              <div class="identity-card">
+                <div class="switch-row"><div><strong>Anonim bildirim</strong><p>Kimlik bilgimi paylaşmak istemiyorum.</p></div><label class="switch"><input type="checkbox" id="anonymous" checked><span></span></label></div>
+                <div class="privacy-note"><svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 1 5 5v2h1a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-7a3 3 0 0 1 3-3h1V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v2h6V7a3 3 0 0 0-3-3Z"/></svg><span>İsterseniz adınızı ve soyadınızı paylaşmadan anonim bildirim yapabilirsiniz. Anonim bildirimlerde kimliğinizi tespit etmeye yönelik hiçbir veri kaydedilmez.</span></div>
+                <label class="field name-field" id="nameField"><span>Adınız ve soyadınız <i>İsteğe bağlı</i></span><input type="text" name="fullName" maxlength="120" placeholder="Ad Soyad"></label>
+              </div>
+            </div>
+          </div>
+
+          <div class="consent-row">
+            <label class="check"><input type="checkbox" name="consent" required><span></span><p><a href="#" id="kvkkOpen">KVKK aydınlatma metnini</a> okudum; bildirim içeriğinin İSG süreçleri kapsamında işlenmesini kabul ediyorum.</p></label>
+            <button class="primary-btn" type="submit"><span>BİLDİRİMİ İNCELE</span><svg viewBox="0 0 24 24"><path d="m13 5 7 7-7 7-1.4-1.4 4.6-4.6H4v-2h12.2l-4.6-4.6L13 5Z"/></svg></button>
+          </div>
+        </form>
+      </section>
+
+      <section class="help-strip"><div><b>?</b><span><strong>Yardıma mı ihtiyacınız var?</strong> Acil tehlike durumunda önce saha sorumlunuza veya İSG birimine haber verin.</span></div><a href="tel:112">Acil durum: <b>112</b></a></section>
+    </main>
+
+    <footer><img src="/api/branding/logo" alt="Çelikler Holding" data-brand-logo><p>© 2026 Çelikler Holding · İş Sağlığı ve Güvenliği · Fark Et. Bildir. Önleyelim.</p><div><a href="#" id="privacyLink">KVKK Aydınlatma</a><a href="#" id="termsLink">Kullanım ilkeleri</a></div></footer>
+  </div>
+
+  <!-- Gönderim Öncesi Özet Modalı -->
+  <div class="modal-backdrop" id="reviewModal" aria-hidden="true">
+    <div class="modal review-modal" role="dialog" aria-modal="true" aria-labelledby="reviewTitle">
+      <button class="modal-close" type="button" data-close="reviewModal">×</button>
+      <div class="modal-icon orange"><svg viewBox="0 0 24 24"><path d="M11 17h2v2h-2v-2Zm0-12h2v10h-2V5Zm1-3a10 10 0 1 1 0 20 10 10 0 0 1 0-20Zm0 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z"/></svg></div>
+      <span class="modal-kicker">GÖNDERMEDEN ÖNCE</span><h2 id="reviewTitle">Bildiriminizi kontrol edin</h2>
+      <p class="modal-sub">Bilgilerin doğru olduğundan emin olduktan sonra bildirimi gönderebilirsiniz.</p>
+      <div class="review-list" id="reviewList"></div>
+      <div class="modal-actions"><button class="secondary-btn" type="button" data-close="reviewModal">Düzenlemeye dön</button><button class="primary-btn" type="button" id="confirmSubmit">BİLDİRİMİ GÖNDER <svg viewBox="0 0 24 24"><path d="m21 3-7.5 18-4.3-7.2L2 9.5 21 3Zm-4.8 4.1-9.4 3.2 4 2.4 2.4 4 3-9.6Z"/></svg></button></div>
+    </div>
+  </div>
+
+  <!-- Başarı Modalı -->
+  <div class="modal-backdrop" id="successModal" aria-hidden="true">
+    <div class="modal success-modal" role="dialog" aria-modal="true">
+      <div class="success-mark"><svg viewBox="0 0 24 24"><path d="m9.2 16.2-4.4-4.4L3.4 13.2 9.2 19 21 7.2l-1.4-1.4-10.4 10.4Z"/></svg></div>
+      <span class="modal-kicker green">BİLDİRİM ALINDI</span><h2>Teşekkür ederiz.</h2>
+      <p>Ramak kala bildiriminiz başarıyla kaydedilmiştir. Bildiriminiz, iş sağlığı ve güvenliği kapsamında değerlendirmeye alınacaktır.</p>
+      <div class="report-number"><span>Bildirim numaranız</span><div><strong id="reportNumber">RK-2026-0001</strong><button type="button" id="copyNumber" aria-label="Bildirim numarasını kopyala"><svg viewBox="0 0 24 24"><path d="M8 7V3h13v13h-4v5H3V7h5Zm2 0h7v7h2V5h-9v2Zm5 2H5v10h10V9Z"/></svg> Kopyala</button></div></div>
+      <small>Bu numarayı bildiriminizle ilgili iletişimde kullanabilirsiniz.</small>
+      <button class="primary-btn full" type="button" id="newReport">YENİ BİLDİRİM OLUŞTUR</button>
+    </div>
+  </div>
+
+  <!-- Yönetici Giriş Modalı (HTML içine kesinlikle şifre yazılmaz) -->
+  <div class="modal-backdrop" id="adminLogin" aria-hidden="true">
+    <div class="modal login-modal" role="dialog" aria-modal="true">
+      <button class="modal-close" type="button" data-close="adminLogin">×</button>
+      <img src="/api/branding/logo" alt="Çelikler Holding" data-brand-logo>
+      <span class="modal-kicker">YETKİLİ ERİŞİMİ</span><h2>Yönetici Paneli</h2><p class="modal-sub">Devam etmek için yetkili yönetici bilgilerinizle giriş yapın.</p>
+      <div class="form-alert error" id="loginError" hidden></div>
+      <form id="loginForm">
+        <label class="field"><span>Kullanıcı adı</span><input name="username" autocomplete="username" placeholder="Kullanıcı adınız" required></label>
+        <label class="field"><span>Parola</span><div class="password-wrap"><input type="password" name="password" autocomplete="current-password" placeholder="Parolanız" required><button type="button" id="togglePassword">Göster</button></div></label>
+        <label class="check remember"><input type="checkbox" name="remember"><span></span><p>Oturumu 7 gün açık tut</p></label>
+        <button class="primary-btn full" type="submit" id="loginSubmitBtn">GÜVENLİ GİRİŞ</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- KVKK Modalı -->
+  <div class="modal-backdrop" id="kvkkModal" aria-hidden="true"><div class="modal legal-modal"><button class="modal-close" type="button" data-close="kvkkModal">×</button><span class="modal-kicker">KİŞİSEL VERİLERİN KORUNMASI</span><h2>KVKK Aydınlatma Metni</h2><p>6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) uyarınca, bu form aracılığıyla paylaştığınız bilgiler; Çelikler Holding iş sağlığı ve güvenliği risklerinin tespiti, önleyici ve düzeltici faaliyetlerin planlanması ve yasal İSG yükümlülüklerinin yerine getirilmesi amaçlarıyla sınırlı olarak işlenmektedir.</p><p><strong>Anonimlik Güvencesi:</strong> Anonim bildirim tercih edildiğinde ad, soyad, kimlik numarası veya kimliğinizi belirlemeye yönelik teknik izleme verisi kaydedilmez. Eklenen fotoğraflarda kişisel veri bulunmamasına özen gösteriniz. Kayıtlar yalnızca yetkili İSG yöneticilerinin erişimine açıktır.</p><button class="primary-btn full" type="button" data-close="kvkkModal">ANLADIM</button></div></div>
+
+  <!-- YÖNETİCİ PANELİ -->
+  <section class="admin-app" id="adminApp" aria-hidden="true">
+    <div class="admin-mobile-overlay" id="adminMobileOverlay"></div>
+    <aside class="admin-side" id="adminSidebar">
+      <div class="admin-brand">
+        <img src="/api/branding/logo" alt="Çelikler Holding" data-brand-logo>
+        <span>İSG YÖNETİM PANELİ</span>
+      </div>
+      <nav id="adminNav">
+        <button type="button" class="active" data-tab="overview">
+          <svg viewBox="0 0 24 24"><path d="M3 3h8v8H3V3Zm2 2v4h4V5H5Zm8-2h8v5h-8V3Zm2 2v1h4V5h-4ZM3 13h8v8H3v-8Zm2 2v4h4v-4H5Zm8-5h8v11h-8V10Zm2 2v7h4v-7h-4Z"/></svg>
+          Genel Bakış
+        </button>
+        <button type="button" data-tab="reports">
+          <svg viewBox="0 0 24 24"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm0 2v14h14V5H5Zm3 3h8v2H8V8Zm0 4h8v2H8v-2Zm0 4h5v2H8v-2Z"/></svg>
+          Bildirimler <i id="navUnreviewedBadge">0</i>
+        </button>
+        <button type="button" data-tab="export">
+          <svg viewBox="0 0 24 24"><path d="M4 4h16v16H4V4Zm2 2v12h12V6H6Zm2 8h2v2H8v-2Zm3-4h2v6h-2v-6Zm3-2h2v8h-2V8Z"/></svg>
+          Excel Raporları
+        </button>
+        <button type="button" data-tab="settings">
+          <svg viewBox="0 0 24 24"><path d="M19.4 13a7.8 7.8 0 0 0 0-2l2-1.5-2-3.4-2.4 1a8 8 0 0 0-1.7-1L15 3.5h-4L10.7 6A8 8 0 0 0 9 7L6.6 6 4.6 9.5l2 1.5a7.8 7.8 0 0 0 0 2l-2 1.5 2 3.4 2.4-1a8 8 0 0 0 1.7 1l.3 2.6h4l.3-2.6a8 8 0 0 0 1.7-1l2.4 1 2-3.4-2-1.5ZM13 15a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/></svg>
+          Ayarlar <i id="navFailedEmailBadge" hidden>!</i>
+        </button>
+      </nav>
+      <div class="side-bottom">
+        <div class="admin-user"><span id="adminAvatar">İY</span><div><strong id="adminDisplayName">İSG Yöneticisi</strong><small id="adminRoleTitle">Yetkili Yönetici</small></div></div>
+        <button type="button" id="backToEmployeeBtn"><svg viewBox="0 0 24 24"><path d="M19 11H7.8l4.9-4.9-1.4-1.4L4 12l7.3 7.3 1.4-1.4L7.8 13H19v-2Z"/></svg>Bildirim ekranına dön</button>
+        <button type="button" id="adminLogout"><svg viewBox="0 0 24 24"><path d="M10 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h5v-2H5V5h5V3Zm4.6 4.4L13.2 8.8l2.2 2.2H8v2h7.4l-2.2 2.2 1.4 1.4 4.6-4.6-4.6-4.6Z"/></svg>Çıkış yap</button>
+      </div>
+    </aside>
+
+    <div class="admin-main">
+      <header class="admin-top">
+        <div>
+          <button type="button" class="mobile-menu" id="mobileMenuBtn" aria-label="Menüyü aç">☰</button>
+          <div>
+            <h1 id="adminViewTitle">Genel Bakış</h1>
+            <p id="adminViewSub">İSG performansını, ziyaretçi ve ramak kala bildirim istatistiklerini izleyin.</p>
+          </div>
+        </div>
+        <div class="admin-top-actions">
+          <button type="button" class="date-filter" id="refreshAdminBtn">↻ Yenile</button>
+          <button type="button" class="export-btn" id="exportBtn"><svg viewBox="0 0 24 24"><path d="M11 3h2v10.2l3.6-3.6L18 11l-6 6-6-6 1.4-1.4 3.6 3.6V3ZM4 19h16v2H4v-2Z"/></svg>EXCEL'E AKTAR</button>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <!-- TAB 1: GENEL BAKIŞ -->
+        <div class="admin-tab active" id="tab-overview">
+          <div class="metric-grid">
+            <article class="metric"><div class="metric-icon blue">↗</div><div><span>Toplam sistem girişi</span><strong id="mTotalVisits">0</strong><small><em>Oturum bazlı giriş sayısı</em></small></div></article>
+            <article class="metric"><div class="metric-icon cyan">◎</div><div><span>Benzersiz ziyaretçi</span><strong id="mUniqueVisitors">0</strong><small><em>Tekrar girişler şişirilmez</em></small></div></article>
+            <article class="metric"><div class="metric-icon orange">!</div><div><span>Toplam ramak kala bildirimi</span><strong id="mTotalReports">0</strong><small id="mClosedRateText"><em>Veritabanı anlık toplamı</em></small></div></article>
+            <article class="metric"><div class="metric-icon green">✓</div><div><span>Alınan önlem ve kapatılan</span><strong id="mClosedReports">0</strong><small id="mCloseRatio"><em>Kapanma oranı %0</em></small></div></article>
+          </div>
+
+          <div class="mini-grid">
+            <div><span>Anonim bildirim</span><strong id="mAnonReports">0</strong><i id="barAnon" style="--w:0%"></i></div>
+            <div><span>İsimli bildirim</span><strong id="mNamedReports">0</strong><i id="barNamed" style="--w:0%"></i></div>
+            <div><span>Son 7 gün / 30 gün</span><strong id="mPeriodReports">0 / 0</strong><small>7g / 30g bildirim</small></div>
+            <div><span>Henüz değerlendirilmemiş</span><strong class="warn" id="mUnreviewed">0</strong><small>Yeni Bildirim</small></div>
+          </div>
+
+          <div class="dashboard-grid">
+            <article class="panel trend-panel">
+              <div class="panel-head">
+                <div><h2>Bildirim eğilimi</h2><p>Son 30 gündeki günlük ramak kala bildirimleri</p></div>
+                <div class="legend"><span><i class="blue-dot"></i>Bu dönem</span><span><i class="gray-dot"></i>Önceki 30 gün</span></div>
+              </div>
+              <div class="chart-wrap">
+                <div class="y-labels" id="trendYLabels"><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span></div>
+                <svg class="line-chart" id="trendChartSvg" viewBox="0 0 650 220" preserveAspectRatio="none"></svg>
+                <div class="x-labels" id="trendXLabels"></div>
+              </div>
+            </article>
+
+            <article class="panel donut-panel">
+              <div class="panel-head"><div><h2>Durum dağılımı</h2><p>Tüm bildirimlerin güncel aşamaları</p></div></div>
+              <div class="donut-row">
+                <div class="donut" id="statusDonut"><div><strong id="donutTotal">0</strong><span>Toplam</span></div></div>
+                <ul id="statusLegendList"></ul>
+              </div>
+            </article>
+          </div>
+
+          <div class="dashboard-grid lower">
+            <article class="panel dept-panel">
+              <div class="panel-head"><div><h2>Olay Yerine Göre Dağılım</h2><p>Çalışma alanlarına göre bildirim yoğunluğu</p></div></div>
+              <div class="bars" id="deptBars"></div>
+            </article>
+            <article class="panel dept-panel">
+              <div class="panel-head"><div><h2>Olay türlerine göre dağılım</h2><p>Bildirilen tehlike kategorileri</p></div></div>
+              <div class="bars" id="typeBars"></div>
+            </article>
+          </div>
+
+          <article class="panel recent-panel" style="margin-top:14px;">
+            <div class="panel-head">
+              <div><h2>Son kaydedilen bildirimler</h2><p>İncelemek için bir satıra tıklayın</p></div>
+              <button type="button" id="goAllReportsBtn">Tüm bildirimler →</button>
+            </div>
+            <div class="report-table" id="recentReportsTable"></div>
+          </article>
+        </div>
+
+        <!-- TAB 2: TÜM BİLDİRİMLER & DEĞERLENDİRME -->
+        <div class="admin-tab" id="tab-reports">
+          <div class="panel">
+            <div class="filter-bar">
+              <input type="search" id="fSearch" placeholder="Bildirim no, açıklama, sorumlu ara…">
+              <select id="fDepartment"><option value="">Tüm bölümler</option></select>
+              <select id="fStatus">
+                <option value="">Tüm durumlar</option>
+                <option value="Yeni Bildirim">Yeni Bildirim</option>
+                <option value="Değerlendiriliyor">Değerlendiriliyor</option>
+                <option value="Aksiyon Bekleniyor">Aksiyon Bekleniyor</option>
+                <option value="Aksiyon Alındı">Aksiyon Alındı</option>
+                <option value="Kapatıldı">Kapatıldı</option>
+              </select>
+              <select id="fAnonymous">
+                <option value="">Anonim & İsimli</option>
+                <option value="1">Sadece Anonim</option>
+                <option value="0">Sadece İsimli</option>
+              </select>
+              <input type="date" id="fStartDate" title="Başlangıç tarihi">
+              <input type="date" id="fEndDate" title="Bitiş tarihi">
+              <button type="button" class="secondary-btn sm" id="clearFiltersBtn">Temizle</button>
+            </div>
+
+            <div class="full-table-wrap">
+              <table class="data-table" id="allReportsTable">
+                <thead>
+                  <tr>
+                    <th>Bildirim No</th>
+                    <th>Olay Tarihi</th>
+                    <th>Olay Yeri</th>
+                    <th>Olay Türü</th>
+                    <th>Bildirim Yapan</th>
+                    <th>Durum</th>
+                    <th>Sorumlu</th>
+                    <th>İşlem</th>
+                  </tr>
+                </thead>
+                <tbody id="allReportsBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: EXCEL RAPORLARI -->
+        <div class="admin-tab" id="tab-export">
+          <div class="panel">
+            <div class="panel-head">
+              <div>
+                <h2>Yönetici Excel Raporu (.xlsx)</h2>
+                <p>Türkçe karakter destekli, tüm 18 İSG sütununu içeren resmi Excel çıktısı oluşturun.</p>
+              </div>
+            </div>
+            <div class="export-form-grid">
+              <label class="field"><span>Başlangıç tarihi</span><input type="date" id="exStartDate"></label>
+              <label class="field"><span>Bitiş tarihi</span><input type="date" id="exEndDate"></label>
+              <label class="field"><span>Olay Yeri</span><select id="exDepartment"><option value="">Tüm olay yerleri</option></select></label>
+              <label class="field"><span>Bildirim durumu</span>
+                <select id="exStatus">
+                  <option value="">Tüm durumlar</option>
+                  <option value="Yeni Bildirim">Yeni Bildirim</option>
+                  <option value="Değerlendiriliyor">Değerlendiriliyor</option>
+                  <option value="Aksiyon Bekleniyor">Aksiyon Bekleniyor</option>
+                  <option value="Aksiyon Alındı">Aksiyon Alındı</option>
+                  <option value="Kapatıldı">Kapatıldı</option>
+                </select>
+              </label>
+            </div>
+            <div class="export-columns-note">
+              <strong>İndirilecek Excel sütunları:</strong>
+              Bildirim numarası, Bildirim tarihi, Olay tarihi, Olay saati, Bölüm, Olay türü, Olay açıklaması, Olası tehlike, Olası sonuç, Alınan veya alınması gereken önlem, Bildirim yapan kişinin adı ve soyadı (anonimlerde "Anonim"), Anonim bildirim durumu, Fotoğraf/ek dosya bağlantısı, Bildirim değerlendirme durumu, Sorumlu kişi/birim, Alınacak düzeltici faaliyet, Faaliyet termin tarihi, Kapatılma tarihi.
+            </div>
+            <button type="button" class="primary-btn" id="downloadFilteredExcelBtn">EXCEL'E AKTAR (.XLSX İNDİR)</button>
+          </div>
+        </div>
+
+        <!-- TAB 4: AYARLAR -->
+        <div class="admin-tab" id="tab-settings">
+          <div class="settings-grid">
+            <!-- E-posta Ayarları -->
+            <article class="panel">
+              <div class="panel-head"><div><h2>Otomatik e-posta bildirimi</h2><p>Her yeni ramak kala bildiriminde otomatik uyarı gönderilecek adres</p></div></div>
+              <div class="smtp-badge" id="smtpStatusBadge">SMTP durumu kontrol ediliyor…</div>
+              <form id="emailSettingsForm" class="stack-form">
+                <label class="field"><span>Yönetici bildirim e-posta adresi</span><input type="email" id="notificationEmailInput" required placeholder="isg@celiklerholding.com"></label>
+                <div class="row-actions">
+                  <button type="submit" class="primary-btn sm">E-POSTA ADRESİNİ KAYDET</button>
+                  <button type="button" class="secondary-btn sm" id="sendTestEmailBtn">Test e-postası gönder</button>
+                </div>
+              </form>
+            </article>
+
+            <!-- Olay Yeri Yönetimi -->
+            <article class="panel">
+              <div class="panel-head"><div><h2>Olay yeri listesi</h2><p>Çalışan bildirim ekranında görünen olay yerlerini yönetin</p></div></div>
+              <form id="addDeptForm" class="inline-add-form">
+                <input type="text" id="newDeptName" placeholder="Yeni bölüm adı (örn. Kömür Hazırlama)" required>
+                <button type="submit" class="primary-btn sm">EKLE</button>
+              </form>
+              <ul class="dept-manage-list" id="deptManageList"></ul>
+            </article>
+
+            <!-- Logo Yönetimi -->
+            <article class="panel">
+              <div class="panel-head"><div><h2>Kurumsal logo dosyası</h2><p>Orijinal renk ve oranları koruyarak ayrı bir logo dosyası yükleyin</p></div></div>
+              <div class="logo-preview-box">
+                <img src="/api/branding/logo" alt="Aktif Logo" data-brand-logo>
+              </div>
+              <div class="row-actions">
+                <input type="file" id="logoFileInput" accept="image/svg+xml,image/png,image/jpeg,image/webp" hidden>
+                <button type="button" class="primary-btn sm" id="uploadLogoBtn">YENİ LOGO YÜKLE</button>
+                <button type="button" class="secondary-btn sm" id="resetLogoBtn">Varsayılan logoya dön</button>
+              </div>
+              <small class="muted-note">Desteklenen formatlar: SVG, PNG, JPG, WEBP (maks. 2 MB, şeffaf arka plan önerilir).</small>
+            </article>
+
+            <!-- Güvenlik ve Yönetici Hesapları -->
+            <article class="panel">
+              <div class="panel-head"><div><h2>Yönetici güvenliği</h2><p>Kendi parolanızı güncelleyin veya yeni yönetici ekleyin</p></div></div>
+              <form id="changePasswordForm" class="stack-form">
+                <label class="field"><span>Mevcut parola</span><input type="password" id="currentPassInput" required></label>
+                <label class="field"><span>Yeni parola (en az 8 karakter)</span><input type="password" id="newPassInput" minlength="8" required></label>
+                <button type="submit" class="primary-btn sm">PAROLAYI GÜNCELLE</button>
+              </form>
+              <hr class="sep">
+              <form id="addAdminForm" class="stack-form">
+                <strong style="font-size:12px;color:var(--navy);">Yeni yetkili yönetici ekle</strong>
+                <div class="grid grid-2">
+                  <label class="field"><span>Kullanıcı adı</span><input type="text" id="newAdminUser" required></label>
+                  <label class="field"><span>Ad Soyad</span><input type="text" id="newAdminName" required></label>
+                </div>
+                <label class="field"><span>Parola (en az 8 karakter)</span><input type="password" id="newAdminPass" minlength="8" required></label>
+                <button type="submit" class="secondary-btn sm">YÖNETİCİ EKLE</button>
+              </form>
+            </article>
+          </div>
+
+          <!-- E-posta Gönderim ve Yeniden Deneme Logları -->
+          <article class="panel" style="margin-top:14px;">
+            <div class="panel-head"><div><h2>E-posta gönderim kayıtları</h2><p>Gönderilemeyen e-postalar buradan tek tıkla yeniden gönderilebilir; hiçbir bildirim kaybolmaz</p></div></div>
+            <div class="full-table-wrap">
+              <table class="data-table">
+                <thead>
+                  <tr><th>Bildirim No</th><th>Alıcı E-posta</th><th>Durum</th><th>Deneme</th><th>Son İşlem</th><th>Hata / Detay</th><th>İşlem</th></tr>
+                </thead>
+                <tbody id="emailLogsBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BİLDİRİM DETAY VE DEĞERLENDİRME MODALI -->
+  <div class="modal-backdrop" id="reportDetailModal" aria-hidden="true">
+    <div class="modal detail-modal" role="dialog" aria-modal="true">
+      <button class="modal-close" type="button" data-close="reportDetailModal">×</button>
+      <div class="detail-header">
+        <div>
+          <span class="modal-kicker" id="detailKicker">BİLDİRİM DETAYI</span>
+          <h2 id="detailTitle">RK-2026-0001</h2>
+        </div>
+        <span class="status" id="detailStatusBadge">Yeni Bildirim</span>
+      </div>
+
+      <div class="detail-grid">
+        <div class="detail-info">
+          <div class="review-list" id="detailSummaryList"></div>
+          <div id="detailPhotoBox" class="detail-photo-box" hidden>
+            <strong>Ekli olay fotoğrafı</strong>
+            <a id="detailPhotoLink" target="_blank" rel="noopener"><img id="detailPhotoImg" alt="Olay fotoğrafı"></a>
+          </div>
+          <div class="detail-history">
+            <h3>Bildirim geçmişi ve değişiklik kayıtları</h3>
+            <ul id="detailHistoryList"></ul>
+          </div>
+        </div>
+
+        <form id="evaluationForm" class="detail-eval-form">
+          <h3>İSG Değerlendirme ve Aksiyon Takibi</h3>
+          <label class="field"><span>Bildirim durumu</span>
+            <select id="evStatus" required>
+              <option value="Yeni Bildirim">Yeni Bildirim</option>
+              <option value="Değerlendiriliyor">Değerlendiriliyor</option>
+              <option value="Aksiyon Bekleniyor">Aksiyon Bekleniyor</option>
+              <option value="Aksiyon Alındı">Aksiyon Alındı</option>
+              <option value="Kapatıldı">Kapatıldı</option>
+            </select>
+          </label>
+          <label class="field"><span>Sorumlu kişi veya birim</span><input type="text" id="evResponsible" placeholder="Örn. Bakım Başmühendisliği / Ali Demir"></label>
+          <label class="field"><span>Alınacak düzeltici faaliyet</span><textarea id="evCorrective" rows="3" placeholder="Planlanan teknik veya idari önlemleri yazın"></textarea></label>
+          <div class="grid grid-2">
+            <label class="field"><span>Faaliyet termin tarihi</span><input type="date" id="evDueDate"></label>
+            <label class="field"><span>Kapatılma tarihi</span><input type="date" id="evClosedAt"></label>
+          </div>
+          <label class="field"><span>Değerlendirme notu</span><textarea id="evNotes" rows="3" placeholder="İSG uzmanı değerlendirme notları"></textarea></label>
+          <label class="field"><span>Geçmişe eklenecek yeni not (isteğe bağlı)</span><input type="text" id="evNoteEntry" placeholder="Örn. Saha incelemesi yapıldı"></label>
+          <div class="modal-actions">
+            <button type="button" class="secondary-btn" data-close="reportDetailModal">Kapat</button>
+            <button type="submit" class="primary-btn" id="saveEvalBtn">DEĞİŞİKLİKLERİ KAYDET</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"><span>✓</span><p>Kopyalandı</p></div>
+  <script src="app.js"></script>
+  <script src="admin.js"></script>
+</body>
+</html>
