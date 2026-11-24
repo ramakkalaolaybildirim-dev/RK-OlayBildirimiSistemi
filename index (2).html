@@ -621,6 +621,59 @@
     .pending-banner[hidden] { display: none; }
     .approve-btn { background: #1b8a62; color: #fff; border: 0; border-radius: 6px; padding: 6px 12px; font-size: 12.5px; font-weight: 700; }
     .reject-btn { background: #fff; color: #b5342b; border: 1px solid #e6b8b5; border-radius: 6px; padding: 6px 12px; font-size: 12.5px; font-weight: 700; }
+    .auth-footer-links {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+    .link-btn {
+      background: none;
+      border: 0;
+      color: var(--blue);
+      font-size: 13px;
+      font-weight: 650;
+      padding: 2px 4px;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+    .link-btn.muted { color: #677d8b; font-weight: 600; }
+    .privacy-notice {
+      background: #eef6fb;
+      border: 1px solid #cbe2f0;
+      color: #0b476b;
+      border-radius: 8px;
+      padding: 12px 15px;
+      margin-bottom: 14px;
+      font-size: 13.5px;
+      line-height: 1.5;
+    }
+    .email-chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
+    .email-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eef4f8;
+      border: 1px solid #d1e0e9;
+      color: var(--navy);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12.5px;
+      font-weight: 600;
+    }
+    .email-chip button {
+      border: 0;
+      background: none;
+      color: #b5342b;
+      font-size: 15px;
+      line-height: 1;
+      padding: 0 2px;
+      font-weight: 800;
+    }
+    .sa-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
     .password-wrap { position: relative; }
     .password-wrap input { padding-right: 68px; }
     .password-wrap button { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: 0; background: none; color: var(--blue); font-size: 13px; font-weight: 700; }
@@ -1033,7 +1086,10 @@
     <footer>
       <img alt="Kurumsal Logo" data-brand-logo>
       <span id="footerCopy">© 2026 İş Sağlığı ve Güvenliği · Fark Et. Bildir. Önleyelim.</span>
-      <a href="#" id="privacyLink">KVKK Aydınlatma</a>
+      <div style="display:flex;gap:14px;align-items:center;">
+        <a href="#" id="footerSupportLink">Destek Talebi</a>
+        <a href="#" id="privacyLink">KVKK Aydınlatma</a>
+      </div>
     </footer>
   </div>
 
@@ -1111,6 +1167,34 @@
           <button class="secondary-btn" type="button" id="changeWorkspaceBtn" style="width:100%;">Farklı Şirket / Proje Seç</button>
           <button class="secondary-btn" type="button" id="pendingLogoutBtn" style="width:100%;">Çıkış Yap</button>
         </div>
+      </div>
+
+      <form id="supportRequestForm" hidden>
+        <label class="field"><span>Adınız Soyadınız <b>*</b></span><input name="fullName" minlength="2" maxlength="120" placeholder="Ad Soyad" required></label>
+        <label class="field"><span>İletişim E-posta Adresiniz <b>*</b></span><input type="email" name="email" placeholder="ornek@sirket.com" required></label>
+        <div class="grid grid-2" style="gap:10px;">
+          <label class="field"><span>Şirket Adı</span><input name="companyName" maxlength="120" placeholder="Şirket adı"></label>
+          <label class="field"><span>Proje İsmi</span><input name="projectName" maxlength="120" placeholder="Proje ismi"></label>
+        </div>
+        <label class="field"><span>Destek Talebiniz / Mesajınız <b>*</b></span><textarea name="message" rows="3" maxlength="2000" required placeholder="Şirket ekleme, e-posta güncelleme veya destek talebinizi yazın…"></textarea></label>
+        <label class="check" style="margin:8px 0 4px;">
+          <input type="checkbox" name="grantAccess" id="supportGrantAccessCheck"><span></span>
+          <p style="font-size:12.5px;">Sistem admininin destek amaçlı şirket alanıma erişmesine izin veriyorum.</p>
+        </label>
+        <button class="primary-btn full" type="submit" id="supportSubmitBtn">DESTEK TALEBİ GÖNDER</button>
+        <button class="secondary-btn full" type="button" id="backFromSupportBtn" style="width:100%;margin-top:8px;">Giriş Ekranına Dön</button>
+      </form>
+
+      <form id="superAdminLoginForm" hidden>
+        <label class="field"><span>Sistem Admini Kullanıcı Adı <b>*</b></span><input name="username" placeholder="Kullanıcı adı" required></label>
+        <label class="field"><span>Parola <b>*</b></span><div class="password-wrap"><input type="password" name="password" placeholder="Sistem admini parolası" required><button type="button" id="toggleSuperPass">Göster</button></div></label>
+        <button class="primary-btn full" type="submit" id="superLoginSubmitBtn">KONTROL MERKEZİNE GİR</button>
+        <button class="secondary-btn full" type="button" id="backFromSuperLoginBtn" style="width:100%;margin-top:8px;">Yönetici Girişine Dön</button>
+      </form>
+
+      <div class="auth-footer-links" id="authFooterLinks">
+        <button type="button" class="link-btn" id="openSupportFromLoginBtn">Üye olmadan destek için admine yazın →</button>
+        <button type="button" class="link-btn muted" id="openSuperAdminLoginBtn">Sistem Admini Kontrol Merkezi Girişi →</button>
       </div>
     </div>
   </div>
@@ -1266,6 +1350,14 @@
                 <button type="submit" class="primary-btn sm">PAROLAYI GÜNCELLE</button>
               </form>
             </article>
+            <article class="panel">
+              <div class="panel-head"><div><h2>Sistem Admini Destek Erişimi</h2><p>Varsayılan olarak şirket olay kayıtlarınız sistem adminine kapalıdır</p></div></div>
+              <div class="privacy-notice" id="supportAccessStatusBox">Durum: <strong>Kapalı (Verileriniz Gizli)</strong></div>
+              <div class="row-actions">
+                <button type="button" class="primary-btn sm" id="toggleSupportAccessBtn">Destek İzni Ver</button>
+                <button type="button" class="secondary-btn sm" id="managerOpenSupportBtn">Destek Talebi Yaz</button>
+              </div>
+            </article>
           </div>
           <article class="panel" style="margin-top:12px;">
             <div class="panel-head"><div><h2>E-posta Gönderim Kayıtları</h2></div></div>
@@ -1275,6 +1367,202 @@
       </div>
     </div>
   </section>
+
+  <!-- SÜPER ADMİN KONTROL MERKEZİ -->
+  <section class="admin-app" id="superAdminApp" aria-hidden="true">
+    <div class="admin-mobile-overlay" id="saMobileOverlay"></div>
+    <aside class="admin-side" id="saSidebar">
+      <div class="admin-brand"><img alt="Kurumsal Logo" data-brand-logo><span>SİSTEM KONTROL MERKEZİ</span></div>
+      <nav id="saNav">
+        <button type="button" class="active" data-sa-tab="overview">Kontrol Merkezi</button>
+        <button type="button" data-sa-tab="workspaces">Şirketler &amp; Mailler</button>
+        <button type="button" data-sa-tab="managers">Yöneticiler <i id="saNavPendingBadge" hidden>0</i></button>
+        <button type="button" data-sa-tab="support">Destek &amp; Veri Aktarımı <i id="saNavSupportBadge" hidden>0</i></button>
+        <button type="button" data-sa-tab="system">Sistem &amp; Loglar <i id="saNavFailedEmailBadge" hidden>!</i></button>
+      </nav>
+      <div class="side-bottom">
+        <div class="admin-user"><strong id="saDisplayName">Sistem Admini</strong><small>Platform Kontrol Merkezi</small></div>
+        <button type="button" id="saBackToEmployeeBtn">← Bildirim formuna dön</button>
+        <button type="button" id="saLogoutBtn">Çıkış yap</button>
+      </div>
+    </aside>
+
+    <div class="admin-main">
+      <header class="admin-top">
+        <div>
+          <button type="button" class="mobile-menu" id="saMobileMenuBtn">☰</button>
+          <h1 id="saViewTitle">Kontrol Merkezi</h1>
+        </div>
+        <div class="admin-top-actions">
+          <button type="button" class="date-filter" id="saRefreshBtn">↻ Yenile</button>
+        </div>
+      </header>
+
+      <div class="admin-content">
+        <div class="admin-tab active" id="sa-tab-overview">
+          <div class="privacy-notice">
+            <strong>Gizlilik Koruması Aktif:</strong> Kontrol Merkezi şirketlerin olay açıklamalarını, fotoğraflarını ve kişi bilgilerini görüntülemez. Yalnızca destek izni veren şirketlere destek sağlayabilir veya ilgili şirketin kendi mailine veri aktarabilirsiniz.
+          </div>
+          <div class="metric-grid">
+            <article class="metric"><span>Kayıtlı Şirket / Proje</span><strong id="saTotalWs">0</strong><small id="saActiveSuspWs">Aktif: 0 · Askıda: 0</small></article>
+            <article class="metric"><span>Aktif Yönetici</span><strong id="saTotalManagers">0</strong><small id="saPendingManagers">Onay bekleyen: 0</small></article>
+            <article class="metric"><span>Toplam Bildirim Sayacı</span><strong id="saTotalReports">0</strong><small>İçerikler şirketlere özel gizlidir</small></article>
+            <article class="metric"><span>Açık Destek Talebi</span><strong class="warn" id="saOpenSupport">0</strong><small id="saFailedEmails">Hatalı e-posta: 0</small></article>
+          </div>
+          <div class="panel" style="margin-top:14px;">
+            <div class="panel-head"><div><h2>Hızlı İşlemler</h2><p>Platform genelinde şirket, e-posta ve destek yönetimi</p></div></div>
+            <div class="row-actions" style="flex-wrap:wrap;">
+              <button type="button" class="primary-btn sm" data-sa-jump="workspaces">+ Şirket veya E-posta Ekle / Çıkar</button>
+              <button type="button" class="secondary-btn sm" data-sa-jump="managers">Yönetici Hesaplarını Yönet</button>
+              <button type="button" class="secondary-btn sm" data-sa-jump="support">Destek Talepleri &amp; Veri Yönlendirme</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-tab" id="sa-tab-workspaces">
+          <article class="panel" style="margin-bottom:14px;">
+            <div class="panel-head"><div><h2>Yeni Şirket / Proje Ekle</h2><p>Üye olmayan bir şirketi doğrudan ekleyip bildirim e-postası tanımlayabilirsiniz</p></div></div>
+            <form id="saAddWorkspaceForm">
+              <div class="sa-form-grid">
+                <label class="field"><span>Şirket Adı <b>*</b></span><input id="saNewCompany" required maxlength="120" placeholder="Örn. ABC İnşaat"></label>
+                <label class="field"><span>Proje İsmi <b>*</b></span><input id="saNewProject" required maxlength="120" placeholder="Örn. Merkez Şantiye"></label>
+                <label class="field"><span>Bildirim E-posta(ları) <b>*</b></span><input id="saNewEmails" required placeholder="mail1@sirket.com, mail2@sirket.com"></label>
+                <label class="field"><span>İlk Yönetici Adı (İsteğe bağlı)</span><input id="saNewOwnerName" maxlength="120" placeholder="Ad Soyad"></label>
+                <label class="field"><span>İlk Yönetici E-postası (İsteğe bağlı)</span><input type="email" id="saNewOwnerEmail" placeholder="yonetici@sirket.com"></label>
+                <label class="field"><span>İlk Yönetici Parolası (İsteğe bağlı)</span><input type="password" id="saNewOwnerPass" minlength="8" placeholder="En az 8 karakter"></label>
+              </div>
+              <div class="row-actions" style="margin-top:12px;">
+                <button type="submit" class="primary-btn sm" id="saAddWsBtn">ŞİRKET VE E-POSTA EKLE</button>
+              </div>
+            </form>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head"><div><h2>Şirketler ve Bildirim E-postaları</h2><p>İstediğiniz şirketi askıya alıp formdan çıkarabilir, kalıcı silebilir veya e-posta adreslerini ekleyip çıkarabilirsiniz</p></div></div>
+            <div class="full-table-wrap">
+              <table class="data-table">
+                <thead><tr><th>Şirket · Proje</th><th>Durum</th><th>Bildirim E-postaları</th><th>Destek İzni</th><th>Yönetici / Kayıt</th><th>İşlemler</th></tr></thead>
+                <tbody id="saWorkspacesBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+
+        <div class="admin-tab" id="sa-tab-managers">
+          <article class="panel" style="margin-bottom:14px;">
+            <div class="panel-head"><div><h2>Şirkete Doğrudan Yönetici Ekle</h2></div></div>
+            <form id="saCreateManagerForm">
+              <div class="sa-form-grid">
+                <label class="field"><span>Ad Soyad <b>*</b></span><input id="saMgrName" required minlength="2" placeholder="Ad Soyad"></label>
+                <label class="field"><span>E-posta <b>*</b></span><input type="email" id="saMgrEmail" required placeholder="yonetici@sirket.com"></label>
+                <label class="field"><span>Parola <b>*</b></span><input type="password" id="saMgrPass" required minlength="8" placeholder="En az 8 karakter"></label>
+                <label class="field"><span>Şirket / Proje <b>*</b></span><select id="saMgrWorkspace" required></select></label>
+                <label class="field"><span>Yetki Rolü</span><select id="saMgrRole"><option value="MEMBER">Yönetici</option><option value="OWNER">İlk Yönetici (OWNER)</option></select></label>
+              </div>
+              <div class="row-actions" style="margin-top:12px;"><button type="submit" class="primary-btn sm">YÖNETİCİ EKLE</button></div>
+            </form>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head"><div><h2>Tüm Kayıtlı Yöneticiler</h2></div></div>
+            <div class="full-table-wrap">
+              <table class="data-table">
+                <thead><tr><th>Ad Soyad</th><th>E-posta</th><th>Şirket · Proje</th><th>Rol</th><th>Durum</th><th>İşlemler</th></tr></thead>
+                <tbody id="saManagersBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+
+        <div class="admin-tab" id="sa-tab-support">
+          <div class="privacy-notice">
+            <strong>Gizlilik &amp; Veri Aktarımı Kuralı:</strong> Destek izni kapalı şirketlerin olay verileri görüntülenemez; yalnızca o şirketin kendi kayıtlı e-postasına Excel aktarımı yapılabilir.
+          </div>
+          <div class="settings-grid" style="margin-bottom:14px;">
+            <article class="panel">
+              <div class="panel-head"><div><h2>İsteyen Şirkete Verilerini Gönder (.xlsx)</h2><p>Seçilen şirketin kayıtlarını yalnızca yetkili e-posta adresine gönderir</p></div></div>
+              <form id="saSendCompanyDataForm" class="stack-form">
+                <label class="field"><span>Şirket / Proje <b>*</b></span><select id="saExportWsSelect" required></select></label>
+                <label class="field"><span>Alıcı E-posta (Boş bırakılırsa şirketin kayıtlı mailine gider)</span><input type="text" id="saExportTargetEmail" placeholder="ornek@sirket.com"></label>
+                <div class="row-actions">
+                  <button type="submit" class="primary-btn sm">ŞİRKETE VERİLERİ GÖNDER</button>
+                  <button type="button" class="secondary-btn sm" id="saPreviewSupportBtn">Destek Özeti Gör (İzinli)</button>
+                </div>
+              </form>
+              <div id="saSupportPreviewBox" style="margin-top:12px;" hidden></div>
+            </article>
+
+            <article class="panel">
+              <div class="panel-head"><div><h2>Olayı Şirkete Yönlendir / Ata</h2><p>Bildirim numarasına göre bir kaydı talep eden şirkete aktarır</p></div></div>
+              <form id="saReassignReportForm" class="stack-form">
+                <label class="field"><span>Bildirim Numarası <b>*</b></span><input type="text" id="saReassignNo" required placeholder="Örn. RK-2026-0001"></label>
+                <label class="field"><span>Hedef Şirket / Proje <b>*</b></span><select id="saReassignWsSelect" required></select></label>
+                <label class="check"><input type="checkbox" id="saReassignNotify" checked><span></span><p style="font-size:13px;">Hedef şirketin bildirim mailine e-posta gönder</p></label>
+                <button type="submit" class="primary-btn sm">OLAYI ŞİRKETE AKTAR</button>
+              </form>
+            </article>
+          </div>
+
+          <article class="panel">
+            <div class="panel-head"><div><h2>Gelen Destek Talepleri</h2><p>Üye olmadan veya panelden gönderilen tüm destek mesajları</p></div></div>
+            <div class="full-table-wrap">
+              <table class="data-table">
+                <thead><tr><th>Talep No</th><th>Gönderen</th><th>Şirket · Proje</th><th>Mesaj</th><th>Erişim İzni</th><th>Durum</th><th>İşlem</th></tr></thead>
+                <tbody id="saSupportTicketsBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+
+        <div class="admin-tab" id="sa-tab-system">
+          <div class="settings-grid" style="margin-bottom:14px;">
+            <article class="panel">
+              <div class="panel-head"><div><h2>Sistem Admini Bilgilerini Güncelle</h2></div></div>
+              <form id="saChangeCredsForm" class="stack-form">
+                <label class="field"><span>Mevcut Parola <b>*</b></span><input type="password" id="saCurPass" required></label>
+                <label class="field"><span>Kullanıcı Adı <b>*</b></span><input type="text" id="saNewUser" minlength="3" required></label>
+                <label class="field"><span>Yeni Parola (Değiştirmek istemiyorsanız boş bırakın)</span><input type="password" id="saNewPass" minlength="8"></label>
+                <button type="submit" class="primary-btn sm">GÜNCELLE</button>
+              </form>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><div><h2>Genel Olay Yerleri Listesi</h2></div></div>
+              <form id="saAddDeptForm" class="inline-add-form"><input type="text" id="saNewDeptName" placeholder="Yeni olay yeri adı" required><button type="submit" class="primary-btn sm">EKLE</button></form>
+              <ul class="dept-manage-list" id="saDeptManageList"></ul>
+            </article>
+          </div>
+          <article class="panel">
+            <div class="panel-head"><div><h2>Sistem E-posta İletim Kayıtları</h2><p>Gizlilik gereği yalnızca bildirim numarası, alıcı ve teslim durumu gösterilir</p></div></div>
+            <div class="full-table-wrap">
+              <table class="data-table">
+                <thead><tr><th>Bildirim No</th><th>Alıcı E-posta</th><th>Durum</th><th>Deneme</th><th>Detay</th><th>İşlem</th></tr></thead>
+                <tbody id="saEmailLogsBody"></tbody>
+              </table>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Şirket E-postalarını Düzenle Modalı -->
+  <div class="modal-backdrop" id="saEmailsModal" aria-hidden="true">
+    <div class="modal login-modal">
+      <button class="modal-close" type="button" data-close="saEmailsModal">×</button>
+      <span class="modal-kicker">E-POSTA YÖNETİMİ</span>
+      <h2 id="saEmailsModalTitle">Bildirim E-postaları</h2>
+      <p class="modal-sub">Mevcut adresleri çıkarabilir veya yeni e-posta ekleyebilirsiniz.</p>
+      <div class="email-chips" id="saEmailChipsList"></div>
+      <div class="inline-add-form" style="margin-top:8px;">
+        <input type="email" id="saAddEmailChipInput" placeholder="yeni@sirket.com">
+        <button type="button" class="secondary-btn sm" id="saAddEmailChipBtn">+ Ekle</button>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="secondary-btn" data-close="saEmailsModal">İptal</button>
+        <button type="button" class="primary-btn" id="saSaveEmailsBtn">MAİLLERİ KAYDET</button>
+      </div>
+    </div>
+  </div>
 
   <!-- Bildirim Detay Modalı -->
   <div class="modal-backdrop" id="reportDetailModal" aria-hidden="true">
@@ -1618,6 +1906,12 @@
     const badgeHtml = s => '<i class="status '+(STATUS_META[s]?.cls||'new')+'">'+escapeHTML(statusLabel(s))+'</i>';
     const TAB_TITLES = { overview:'Genel Bakış', reports:'Bildirimler', export:'Excel Raporu', team:'Ekip & Onaylar', settings:'Ayarlar' };
 
+    let superAdminToken = sessionStorage.getItem('rk_super_token') || '';
+    let saDataCache = null;
+    let saEditingEmailWsKey = '';
+    let saEditingEmailList = [];
+    let currentSupportAccess = 'DISABLED';
+
     function setAuthError(msg) {
       const el = $('#loginError');
       if (!msg) { el.hidden = true; el.textContent = ''; }
@@ -1629,10 +1923,13 @@
       $$('#authModeTabs button').forEach(b => b.classList.toggle('active', b.dataset.authMode === view));
       const isLoginOrReg = view === 'login' || view === 'register';
       $('#authModeTabs').hidden = !isLoginOrReg;
+      $('#authFooterLinks').hidden = !isLoginOrReg;
       $('#loginForm').hidden = view !== 'login';
       $('#registerForm').hidden = view !== 'register';
       $('#workspaceSetupForm').hidden = view !== 'setup';
       $('#pendingApprovalView').hidden = view !== 'pending';
+      $('#supportRequestForm').hidden = view !== 'support';
+      $('#superAdminLoginForm').hidden = view !== 'superLogin';
 
       if (view === 'login') {
         $('#authKicker').textContent = 'YETKİLİ ERİŞİMİ';
@@ -1642,6 +1939,14 @@
         $('#authKicker').textContent = 'YENİ YÖNETİCİ KAYDI';
         $('#authTitle').textContent = 'Üye Ol';
         $('#authSubtitle').textContent = 'Üyelik sonrası şirket adı ve proje ismi girmeniz zorunludur.';
+      } else if (view === 'support') {
+        $('#authKicker').textContent = 'DESTEK TALEBİ';
+        $('#authTitle').textContent = 'Sistem Adminine Yazın';
+        $('#authSubtitle').textContent = 'Üye olmadan şirket ekleme, e-posta değişikliği veya destek talebi gönderebilirsiniz.';
+      } else if (view === 'superLogin') {
+        $('#authKicker').textContent = 'PLATFORM YÖNETİMİ';
+        $('#authTitle').textContent = 'Sistem Admini Kontrol Merkezi';
+        $('#authSubtitle').textContent = 'Şirket, e-posta ve destek yönetimi için sistem admini bilgilerinizle giriş yapın.';
       } else if (view === 'setup') {
         $('#authKicker').textContent = 'ADIM 2 / 2 · ZORUNLU ALANLAR';
         $('#authTitle').textContent = 'Şirket ve Proje Bilgileri';
@@ -2415,6 +2720,8 @@
       $('#companyNameInput').value = serverName;
       if ($('#projectNameInput')) $('#projectNameInput').value = serverProject;
       $('#notificationEmailInput').value = s.notificationEmail;
+      currentSupportAccess = s.supportAccess || 'DISABLED';
+      renderSupportAccessBox();
       ['#fDepartment','#exDepartment'].forEach(id=>{ const el=$(id), p=el.value; el.innerHTML='<option value="">Tüm olay yerleri</option>'; s.departments.forEach(d=>{ const o=document.createElement('option'); o.value=d.name; o.textContent=d.isActive?d.name:d.name+' (Pasif)'; el.appendChild(o); }); el.value=p; });
       $('#deptManageList').innerHTML = s.departments.map(d=>'<li class="'+(d.isActive?'':'inactive')+'"><span>'+escapeHTML(d.name)+'</span><button type="button" class="mini-pill-btn" data-tdept="'+d.id+'">'+(d.isActive?'Pasifleştir':'Aktifleştir')+'</button></li>').join('');
       $$('[data-tdept]').forEach(b=>b.addEventListener('click', async ()=>{ await gasCall('toggleDepartment', adminToken, Number(b.dataset.tdept)); loadSettings(); initPublicConfig(false); toast('Olay yeri güncellendi'); }));
@@ -2446,6 +2753,433 @@
     $('#resetLogoBtn').addEventListener('click', async ()=>{ try { localStorage.removeItem('rk_company_logo'); } catch {} try { const res=await gasCall('resetCustomLogo', adminToken); applyCompanyBranding(undefined, (res && res.logoDataUrl && !isLegacyLogoUrl(res.logoDataUrl)) ? res.logoDataUrl : DEFAULT_LOGO_DATA_URI); } catch { applyCompanyBranding(undefined, DEFAULT_LOGO_DATA_URI); } toast('Varsayılan logoya dönüldü'); });
     $('#changePasswordForm').addEventListener('submit', async e=>{ e.preventDefault(); const r=await gasCall('changeAdminPassword', adminToken, $('#currentPassInput').value, $('#newPassInput').value); toast(r.ok?r.message:r.error, r.ok?'✓':'!'); if(r.ok) e.target.reset(); });
 
+    function renderSupportAccessBox() {
+      const enabled = currentSupportAccess === 'ENABLED';
+      const box = $('#supportAccessStatusBox');
+      const btn = $('#toggleSupportAccessBtn');
+      if (box) {
+        box.innerHTML = enabled
+          ? 'Durum: <strong>Açık (Sistem Adminine Destek İzni Verildi)</strong> — İşlem bitince izni kapatabilirsiniz.'
+          : 'Durum: <strong>Kapalı (Verileriniz Gizli)</strong> — Sistem admini olay içeriklerinizi göremez.';
+      }
+      if (btn) btn.textContent = enabled ? 'Destek İznini Kapat' : 'Destek İzni Ver';
+    }
+
+    $('#toggleSupportAccessBtn')?.addEventListener('click', async () => {
+      const next = currentSupportAccess !== 'ENABLED';
+      const r = await gasCall('updateSupportAccess', adminToken, next);
+      if (!r.ok) return toast(r.error || 'İşlem başarısız', '!');
+      currentSupportAccess = r.supportAccess;
+      renderSupportAccessBox();
+      toast(next ? 'Sistem adminine destek erişim izni verildi' : 'Destek erişim izni kapatıldı');
+    });
+
+    $('#managerOpenSupportBtn')?.addEventListener('click', () => {
+      openModal('adminLogin');
+      showAuthView('support');
+      if (currentAdmin) {
+        $('#supportRequestForm [name="fullName"]').value = currentAdmin.fullName || '';
+        $('#supportRequestForm [name="email"]').value = currentAdmin.email || '';
+        $('#supportRequestForm [name="companyName"]').value = currentAdmin.companyName || '';
+        $('#supportRequestForm [name="projectName"]').value = currentAdmin.projectName || '';
+      }
+    });
+
+    $('#footerSupportLink')?.addEventListener('click', e => {
+      e.preventDefault();
+      openModal('adminLogin');
+      showAuthView('support');
+    });
+    $('#openSupportFromLoginBtn')?.addEventListener('click', () => showAuthView('support'));
+    $('#backFromSupportBtn')?.addEventListener('click', () => showAuthView('login'));
+
+    $('#openSuperAdminLoginBtn')?.addEventListener('click', async () => {
+      if (superAdminToken) {
+        try {
+          const chk = await gasCall('verifySuperAdminSession', superAdminToken);
+          if (chk.authenticated) {
+            closeModal('adminLogin');
+            return enterSuperAdmin(chk.username);
+          }
+        } catch(e) {}
+      }
+      showAuthView('superLogin');
+    });
+    $('#backFromSuperLoginBtn')?.addEventListener('click', () => showAuthView('login'));
+    $('#toggleSuperPass')?.addEventListener('click', e => {
+      const i = $('#superAdminLoginForm [name="password"]');
+      i.type = i.type === 'password' ? 'text' : 'password';
+      e.target.textContent = i.type === 'password' ? 'Göster' : 'Gizle';
+    });
+
+    $('#supportRequestForm')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      setAuthError('');
+      const btn = $('#supportSubmitBtn'); btn.disabled = true; btn.textContent = 'GÖNDERİLİYOR…';
+      try {
+        const fd = new FormData(e.target);
+        const r = await gasCall('submitSupportRequest', {
+          fullName: fd.get('fullName'),
+          email: fd.get('email'),
+          companyName: fd.get('companyName'),
+          projectName: fd.get('projectName'),
+          message: fd.get('message'),
+          grantAccess: $('#supportGrantAccessCheck').checked,
+        });
+        if (!r.ok) return setAuthError(r.error || 'Talep gönderilemedi');
+        e.target.reset();
+        closeModal('adminLogin');
+        toast('Destek talebiniz iletildi (' + r.ticketId + ')');
+      } catch(err) {
+        setAuthError(err.message || 'Destek talebi gönderilemedi');
+      } finally { btn.disabled = false; btn.textContent = 'DESTEK TALEBİ GÖNDER'; }
+    });
+
+    $('#superAdminLoginForm')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      setAuthError('');
+      const btn = $('#superLoginSubmitBtn'); btn.disabled = true; btn.textContent = 'GİRİŞ YAPILIYOR…';
+      try {
+        const fd = new FormData(e.target);
+        const r = await gasCall('superAdminLogin', fd.get('username'), fd.get('password'));
+        if (!r.ok) return setAuthError(r.error || 'Giriş başarısız');
+        superAdminToken = r.token;
+        sessionStorage.setItem('rk_super_token', superAdminToken);
+        e.target.reset();
+        closeModal('adminLogin');
+        enterSuperAdmin(r.username);
+      } catch(err) {
+        setAuthError(err.message || 'Giriş sırasında hata oluştu');
+      } finally { btn.disabled = false; btn.textContent = 'KONTROL MERKEZİNE GİR'; }
+    });
+
+    const SA_TAB_TITLES = {
+      overview: 'Kontrol Merkezi',
+      workspaces: 'Şirketler & Mailler',
+      managers: 'Yöneticiler',
+      support: 'Destek & Veri Aktarımı',
+      system: 'Sistem & Loglar',
+    };
+
+    function enterSuperAdmin(username) {
+      $('#employeeApp').style.display = 'none';
+      $('#adminApp').classList.remove('active');
+      $('#superAdminApp').classList.add('active');
+      $('#saDisplayName').textContent = username || 'Sistem Admini';
+      loadSuperAdminAll();
+    }
+
+    function switchSaTab(t) {
+      $$('#saNav button[data-sa-tab]').forEach(b => b.classList.toggle('active', b.dataset.saTab === t));
+      $$('#superAdminApp .admin-tab').forEach(x => x.classList.toggle('active', x.id === 'sa-tab-' + t));
+      $('#saViewTitle').textContent = SA_TAB_TITLES[t] || 'Kontrol Merkezi';
+      $('#saSidebar').classList.remove('open');
+      $('#saMobileOverlay').classList.remove('open');
+    }
+
+    $$('#saNav button[data-sa-tab]').forEach(b => b.addEventListener('click', () => switchSaTab(b.dataset.saTab)));
+    $$('[data-sa-jump]').forEach(b => b.addEventListener('click', () => switchSaTab(b.dataset.saJump)));
+    $('#saMobileMenuBtn')?.addEventListener('click', () => { $('#saSidebar').classList.toggle('open'); $('#saMobileOverlay').classList.toggle('open'); });
+    $('#saMobileOverlay')?.addEventListener('click', () => { $('#saSidebar').classList.remove('open'); $('#saMobileOverlay').classList.remove('open'); });
+    $('#saBackToEmployeeBtn')?.addEventListener('click', () => { $('#superAdminApp').classList.remove('active'); $('#employeeApp').style.display = ''; initPublicConfig(false); });
+    $('#saLogoutBtn')?.addEventListener('click', async () => {
+      try { if (superAdminToken) await gasCall('superAdminLogout', superAdminToken); } catch(e) {}
+      superAdminToken = ''; sessionStorage.removeItem('rk_super_token');
+      $('#superAdminApp').classList.remove('active'); $('#employeeApp').style.display = '';
+      initPublicConfig(false);
+    });
+    $('#saRefreshBtn')?.addEventListener('click', () => loadSuperAdminAll(true));
+
+    function renderEmailChipsEditor() {
+      const box = $('#saEmailChipsList');
+      if (!saEditingEmailList.length) {
+        box.innerHTML = '<small style="color:var(--muted);">Henüz e-posta tanımlanmamış. Aşağıdan ekleyin.</small>';
+        return;
+      }
+      box.innerHTML = saEditingEmailList.map((em, idx) =>
+        '<span class="email-chip">' + escapeHTML(em) + '<button type="button" data-rm-email="' + idx + '" title="Çıkar">×</button></span>'
+      ).join('');
+      $$('[data-rm-email]', box).forEach(b => b.addEventListener('click', () => {
+        saEditingEmailList.splice(Number(b.dataset.rmEmail), 1);
+        renderEmailChipsEditor();
+      }));
+    }
+
+    $('#saAddEmailChipBtn')?.addEventListener('click', () => {
+      const inp = $('#saAddEmailChipInput');
+      const val = inp.value.trim().toLowerCase();
+      if (!val || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) return toast('Geçerli bir e-posta yazın', '!');
+      if (!saEditingEmailList.includes(val)) saEditingEmailList.push(val);
+      inp.value = '';
+      renderEmailChipsEditor();
+    });
+
+    $('#saSaveEmailsBtn')?.addEventListener('click', async () => {
+      const pendingVal = $('#saAddEmailChipInput').value.trim().toLowerCase();
+      if (pendingVal) {
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(pendingVal)) return toast('Geçerli bir e-posta yazın', '!');
+        if (!saEditingEmailList.includes(pendingVal)) saEditingEmailList.push(pendingVal);
+        $('#saAddEmailChipInput').value = '';
+      }
+      const btn = $('#saSaveEmailsBtn'); btn.disabled = true;
+      try {
+        const r = await gasCall('superAdminUpdateWorkspaceEmails', superAdminToken, saEditingEmailWsKey, saEditingEmailList.join(', '));
+        if (!r.ok) return toast(r.error || 'Kaydedilemedi', '!');
+        closeModal('saEmailsModal');
+        toast(r.message);
+        loadSuperAdminAll();
+      } finally { btn.disabled = false; }
+    });
+
+    async function loadSuperAdminAll(showToast) {
+      try {
+        const d = await gasCall('getSuperAdminDashboard', superAdminToken);
+        saDataCache = d;
+        const m = d.metrics || {};
+        $('#saTotalWs').textContent = m.totalWorkspaces || 0;
+        $('#saActiveSuspWs').textContent = 'Aktif: ' + (m.activeWorkspaces || 0) + ' · Askıda: ' + (m.suspendedWorkspaces || 0);
+        $('#saTotalManagers').textContent = m.totalManagers || 0;
+        $('#saPendingManagers').textContent = 'Onay bekleyen: ' + (m.pendingManagers || 0);
+        $('#saTotalReports').textContent = m.totalReportsCount || 0;
+        $('#saOpenSupport').textContent = m.openSupportCount || 0;
+        $('#saFailedEmails').textContent = 'Hatalı e-posta: ' + (m.failedEmailCount || 0);
+        $('#saNavPendingBadge').textContent = m.pendingManagers || 0;
+        $('#saNavPendingBadge').hidden = !(m.pendingManagers > 0);
+        $('#saNavSupportBadge').textContent = m.openSupportCount || 0;
+        $('#saNavSupportBadge').hidden = !(m.openSupportCount > 0);
+        $('#saNavFailedEmailBadge').hidden = !(m.failedEmailCount > 0);
+        $('#saNewUser').value = d.username || 'sistemadmin';
+
+        const wsList = d.workspaces || [];
+        const wsOptionsHtml = wsList.map(w => '<option value="' + escapeHTML(w.workspaceKey) + '">' + escapeHTML(w.companyName + ' · ' + w.projectName) + '</option>').join('');
+        ['#saMgrWorkspace', '#saExportWsSelect', '#saReassignWsSelect'].forEach(sel => {
+          const el = $(sel);
+          if (!el) return;
+          const prev = el.value;
+          el.innerHTML = wsOptionsHtml || '<option value="">Kayıtlı şirket yok</option>';
+          if (prev && wsList.some(w => w.workspaceKey === prev)) el.value = prev;
+        });
+
+        $('#saWorkspacesBody').innerHTML = !wsList.length
+          ? '<tr><td colspan="6"><div class="empty-state">Henüz kayıtlı şirket yok</div></td></tr>'
+          : wsList.map(w => {
+              const isSusp = w.status === 'SUSPENDED';
+              const suppOn = w.supportAccess === 'ENABLED';
+              return '<tr>' +
+                '<td><strong>' + escapeHTML(w.companyName) + '</strong><br><small style="color:var(--muted);">' + escapeHTML(w.projectName) + '</small></td>' +
+                '<td><i class="status ' + (isSusp ? 'action' : 'closed') + '">' + (isSusp ? 'Askıda' : 'Aktif') + '</i></td>' +
+                '<td><div style="max-width:230px;word-break:break-word;font-size:12.5px;">' + escapeHTML(w.notificationEmail || 'Tanımlı değil') + '</div></td>' +
+                '<td><i class="status ' + (suppOn ? 'closed' : 'new') + '">' + (suppOn ? 'Açık' : 'Kapalı') + '</i></td>' +
+                '<td>' + w.managerCount + ' yönetici · ' + w.reportCount + ' kayıt</td>' +
+                '<td><div style="display:flex;gap:6px;flex-wrap:wrap;">' +
+                  '<button type="button" class="table-btn" data-sa-edit-emails="' + escapeHTML(w.workspaceKey) + '">Mailler</button>' +
+                  '<button type="button" class="table-btn" data-sa-toggle-ws="' + escapeHTML(w.workspaceKey) + '" data-next="' + (isSusp ? 'ACTIVE' : 'SUSPENDED') + '">' + (isSusp ? 'Aktifleştir' : 'Çıkar (Askıya Al)') + '</button>' +
+                  '<button type="button" class="reject-btn" data-sa-del-ws="' + escapeHTML(w.workspaceKey) + '" data-name="' + escapeHTML(w.companyName + ' · ' + w.projectName) + '">Sil</button>' +
+                '</div></td>' +
+              '</tr>';
+            }).join('');
+
+        $$('[data-sa-edit-emails]').forEach(btn => btn.addEventListener('click', () => {
+          const w = (saDataCache.workspaces || []).find(x => x.workspaceKey === btn.dataset.saEditEmails);
+          if (!w) return;
+          saEditingEmailWsKey = w.workspaceKey;
+          saEditingEmailList = String(w.notificationEmail || '').split(',').map(x => x.trim().toLowerCase()).filter(Boolean);
+          $('#saEmailsModalTitle').textContent = w.companyName + ' · ' + w.projectName;
+          $('#saAddEmailChipInput').value = '';
+          renderEmailChipsEditor();
+          openModal('saEmailsModal');
+        }));
+
+        $$('[data-sa-toggle-ws]').forEach(btn => btn.addEventListener('click', async () => {
+          btn.disabled = true;
+          const r = await gasCall('superAdminToggleWorkspaceStatus', superAdminToken, btn.dataset.saToggleWs, btn.dataset.next);
+          toast(r.ok ? r.message : r.error, r.ok ? '✓' : '!');
+          loadSuperAdminAll();
+          initPublicConfig(false);
+        }));
+
+        $$('[data-sa-del-ws]').forEach(btn => btn.addEventListener('click', async () => {
+          if (!confirm('"' + btn.dataset.name + '" şirket/proje kaydı ve bağlı yöneticileri kalıcı olarak silinsin mi?')) return;
+          const delReps = confirm('Bu şirkete ait mevcut bildirim kayıtları da kalıcı olarak silinsin mi? (İptal = bildirim kayıtları arşivde kalsın)');
+          btn.disabled = true;
+          const r = await gasCall('superAdminDeleteWorkspace', superAdminToken, btn.dataset.saDelWs, delReps);
+          toast(r.ok ? r.message : r.error, r.ok ? '✓' : '!');
+          loadSuperAdminAll();
+          initPublicConfig(false);
+        }));
+
+        const mgrs = d.managers || [];
+        $('#saManagersBody').innerHTML = !mgrs.length
+          ? '<tr><td colspan="6"><div class="empty-state">Kayıtlı yönetici yok</div></td></tr>'
+          : mgrs.map(u => {
+              const stClass = u.membershipStatus === 'ACTIVE' ? 'closed' : (u.membershipStatus === 'PENDING' ? 'action' : 'new');
+              const stLabel = u.membershipStatus === 'ACTIVE' ? 'Aktif' : (u.membershipStatus === 'PENDING' ? 'Onay Bekliyor' : (u.membershipStatus === 'NEEDS_SETUP' ? 'Kurulum Bekliyor' : 'Reddedildi'));
+              return '<tr>' +
+                '<td><strong>' + escapeHTML(u.fullName) + '</strong></td>' +
+                '<td>' + escapeHTML(u.email || u.username) + '</td>' +
+                '<td>' + escapeHTML((u.companyName || '—') + (u.projectName ? ' · ' + u.projectName : '')) + '</td>' +
+                '<td>' + (u.role === 'OWNER' ? 'İlk Yönetici' : 'Yönetici') + '</td>' +
+                '<td><i class="status ' + stClass + '">' + stLabel + '</i></td>' +
+                '<td><div style="display:flex;gap:6px;flex-wrap:wrap;">' +
+                  (u.membershipStatus !== 'ACTIVE' ? '<button type="button" class="approve-btn" data-sa-mgr="' + escapeHTML(u.username) + '" data-act="APPROVE">Onayla</button>' : '') +
+                  (u.membershipStatus === 'ACTIVE' ? '<button type="button" class="table-btn" data-sa-mgr="' + escapeHTML(u.username) + '" data-act="REJECT">Askıya Al</button>' : '') +
+                  '<button type="button" class="table-btn" data-sa-mgr="' + escapeHTML(u.username) + '" data-act="RESET_PASSWORD">Parola</button>' +
+                  '<button type="button" class="reject-btn" data-sa-mgr="' + escapeHTML(u.username) + '" data-act="DELETE">Sil</button>' +
+                '</div></td>' +
+              '</tr>';
+            }).join('');
+
+        $$('[data-sa-mgr]').forEach(btn => btn.addEventListener('click', async () => {
+          const act = btn.dataset.act;
+          let extra = '';
+          if (act === 'RESET_PASSWORD') {
+            extra = prompt('Yeni parola girin (en az 8 karakter):') || '';
+            if (!extra) return;
+          }
+          if (act === 'DELETE' && !confirm('Bu yönetici hesabını kalıcı olarak silmek istiyor musunuz?')) return;
+          btn.disabled = true;
+          const r = await gasCall('superAdminManageManager', superAdminToken, btn.dataset.saMgr, act, extra);
+          toast(r.ok ? r.message : r.error, r.ok ? '✓' : '!');
+          loadSuperAdminAll();
+        }));
+
+        const tks = d.supportTickets || [];
+        $('#saSupportTicketsBody').innerHTML = !tks.length
+          ? '<tr><td colspan="7"><div class="empty-state">Henüz destek talebi yok</div></td></tr>'
+          : tks.map(t =>
+              '<tr>' +
+                '<td><strong>' + escapeHTML(t.id) + '</strong><br><small style="color:var(--muted);">' + formatDate(t.createdAt) + '</small></td>' +
+                '<td>' + escapeHTML(t.fullName) + '<br><small style="color:var(--muted);">' + escapeHTML(t.email) + '</small></td>' +
+                '<td>' + escapeHTML(t.companyName + ' · ' + t.projectName) + '</td>' +
+                '<td style="max-width:260px;white-space:pre-wrap;font-size:12.5px;">' + escapeHTML(t.message) + '</td>' +
+                '<td>' + escapeHTML(t.grantAccess) + '</td>' +
+                '<td><i class="status ' + (t.status === 'RESOLVED' ? 'closed' : 'action') + '">' + (t.status === 'RESOLVED' ? 'Çözüldü' : 'Açık') + '</i></td>' +
+                '<td><div style="display:flex;gap:6px;flex-wrap:wrap;">' +
+                  '<button type="button" class="table-btn" data-sa-ticket="' + escapeHTML(t.id) + '" data-st="' + (t.status === 'RESOLVED' ? 'OPEN' : 'RESOLVED') + '">' + (t.status === 'RESOLVED' ? 'Tekrar Aç' : 'Çözüldü') + '</button>' +
+                  '<button type="button" class="reject-btn" data-sa-del-ticket="' + escapeHTML(t.id) + '">Sil</button>' +
+                '</div></td>' +
+              '</tr>'
+            ).join('');
+
+        $$('[data-sa-ticket]').forEach(btn => btn.addEventListener('click', async () => {
+          btn.disabled = true;
+          const r = await gasCall('superAdminResolveSupportTicket', superAdminToken, btn.dataset.saTicket, btn.dataset.st, '');
+          toast(r.ok ? r.message : r.error, r.ok ? '✓' : '!');
+          loadSuperAdminAll();
+        }));
+        $$('[data-sa-del-ticket]').forEach(btn => btn.addEventListener('click', async () => {
+          btn.disabled = true;
+          const r = await gasCall('superAdminDeleteSupportTicket', superAdminToken, btn.dataset.saDelTicket);
+          toast(r.ok ? r.message : r.error, r.ok ? '✓' : '!');
+          loadSuperAdminAll();
+        }));
+
+        $('#saDeptManageList').innerHTML = (d.departments || []).map(dep =>
+          '<li class="' + (dep.isActive ? '' : 'inactive') + '"><span>' + escapeHTML(dep.name) + '</span><button type="button" class="mini-pill-btn" data-sa-tdept="' + dep.id + '">' + (dep.isActive ? 'Pasifleştir' : 'Aktifleştir') + '</button></li>'
+        ).join('');
+        $$('[data-sa-tdept]').forEach(b => b.addEventListener('click', async () => {
+          await gasCall('superAdminToggleDepartment', superAdminToken, Number(b.dataset.saTdept));
+          loadSuperAdminAll();
+          toast('Olay yeri güncellendi');
+        }));
+
+        $('#saEmailLogsBody').innerHTML = (d.emailLogs || []).map(l =>
+          '<tr><td><strong>' + escapeHTML(l.reportNumber) + '</strong></td><td>' + escapeHTML(l.recipientEmail) + '</td><td><i class="status ' + (l.status === 'SENT' ? 'closed' : 'action') + '">' + (l.status === 'SENT' ? 'Gönderildi' : 'Gönderilemedi') + '</i></td><td>' + l.attempts + '</td><td>' + escapeHTML(l.errorMessage || 'İletildi') + '</td><td>' + (l.status !== 'SENT' ? '<button type="button" class="table-btn" data-sa-resend="' + escapeHTML(l.id) + '">Yeniden Gönder</button>' : '—') + '</td></tr>'
+        ).join('') || '<tr><td colspan="6"><div class="empty-state">Kayıt yok</div></td></tr>';
+        $$('[data-sa-resend]').forEach(b => b.addEventListener('click', async () => {
+          const r = await gasCall('superAdminResendEmail', superAdminToken, b.dataset.saResend);
+          toast(r.ok ? 'E-posta yeniden gönderildi' : r.error, r.ok ? '✓' : '!');
+          loadSuperAdminAll();
+        }));
+
+        if (showToast) toast('Kontrol Merkezi güncellendi');
+      } catch(err) {
+        toast('Kontrol Merkezi verisi alınamadı: ' + (err.message || err), '!');
+      }
+    }
+
+    $('#saAddWorkspaceForm')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = $('#saAddWsBtn'); btn.disabled = true;
+      try {
+        const r = await gasCall('superAdminAddWorkspace', superAdminToken, {
+          companyName: $('#saNewCompany').value,
+          projectName: $('#saNewProject').value,
+          notificationEmail: $('#saNewEmails').value,
+          ownerName: $('#saNewOwnerName').value,
+          ownerEmail: $('#saNewOwnerEmail').value,
+          ownerPassword: $('#saNewOwnerPass').value,
+        });
+        if (!r.ok) return toast(r.error || 'Eklenemedi', '!');
+        e.target.reset();
+        toast(r.message);
+        loadSuperAdminAll();
+        initPublicConfig(false);
+      } finally { btn.disabled = false; }
+    });
+
+    $('#saCreateManagerForm')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      const r = await gasCall('superAdminCreateManager', superAdminToken, {
+        fullName: $('#saMgrName').value,
+        email: $('#saMgrEmail').value,
+        password: $('#saMgrPass').value,
+        workspaceKey: $('#saMgrWorkspace').value,
+        role: $('#saMgrRole').value,
+      });
+      toast(r.ok ? r.message : r.error, r.ok ? '✓' : '!');
+      if (r.ok) { e.target.reset(); loadSuperAdminAll(); }
+    });
+
+    $('#saSendCompanyDataForm')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      const wsKey = $('#saExportWsSelect').value;
+      const targetEmail = $('#saExportTargetEmail').value.trim();
+      const r = await gasCall('superAdminSendWorkspaceReportToCompany', superAdminToken, wsKey, targetEmail);
+      toast(r.ok ? r.message : r.error, r.ok ? '✓' : '!');
+    });
+
+    $('#saPreviewSupportBtn')?.addEventListener('click', async () => {
+      const wsKey = $('#saExportWsSelect').value;
+      const box = $('#saSupportPreviewBox');
+      const r = await gasCall('superAdminGetSupportWorkspaceReports', superAdminToken, wsKey);
+      if (!r.ok) {
+        box.hidden = false;
+        box.innerHTML = '<div class="form-alert">' + escapeHTML(r.error) + '</div>';
+        return;
+      }
+      box.hidden = false;
+      box.innerHTML = !r.reports.length
+        ? '<div class="empty-state">Bu şirkette henüz kayıt yok.</div>'
+        : '<div class="full-table-wrap"><table class="data-table"><thead><tr><th>Bildirim No</th><th>Tarih</th><th>Olay Yeri</th><th>Durum</th></tr></thead><tbody>' +
+          r.reports.slice(0, 20).map(x => '<tr><td><strong>' + escapeHTML(x.reportNumber) + '</strong></td><td>' + formatDate(x.eventDate) + '</td><td>' + escapeHTML(x.department) + '</td><td>' + badgeHtml(x.status) + '</td></tr>').join('') +
+          '</tbody></table></div>';
+    });
+
+    $('#saReassignReportForm')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      const r = await gasCall('superAdminReassignReport', superAdminToken, $('#saReassignNo').value, $('#saReassignWsSelect').value, $('#saReassignNotify').checked);
+      toast(r.ok ? r.message : r.error, r.ok ? '✓' : '!');
+      if (r.ok) { $('#saReassignNo').value = ''; loadSuperAdminAll(); }
+    });
+
+    $('#saChangeCredsForm')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      const r = await gasCall('changeSuperAdminCredentials', superAdminToken, $('#saCurPass').value, $('#saNewUser').value, $('#saNewPass').value);
+      toast(r.ok ? r.message : r.error, r.ok ? '✓' : '!');
+      if (r.ok) {
+        $('#saCurPass').value = ''; $('#saNewPass').value = '';
+        $('#saDisplayName').textContent = r.username;
+      }
+    });
+
+    $('#saAddDeptForm')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      const r = await gasCall('superAdminAddDepartment', superAdminToken, $('#saNewDeptName').value);
+      toast(r.ok ? 'Olay yeri eklendi' : r.error, r.ok ? '✓' : '!');
+      if (r.ok) { $('#saNewDeptName').value = ''; loadSuperAdminAll(); }
+    });
+
     try {
       const sp = new URLSearchParams(window.location.search);
       if (sp.get('api')) localStorage.setItem('rk_gas_api_url', sp.get('api'));
@@ -2459,5 +3193,5 @@
       }
     } catch(e) {}
   </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5f7383cdb1e0ad6',t:'MTc5NTUxMDc4OA=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5f7383cdb1e0ad6',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5f77a171d8ba062',t:'MTc5NTUxMzQ4NQ=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5f77a171d8ba062',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
