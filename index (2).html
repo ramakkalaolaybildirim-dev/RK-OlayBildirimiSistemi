@@ -674,6 +674,121 @@
       font-weight: 800;
     }
     .sa-form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+    .announce-bar {
+      padding: 10px 18px;
+      font-size: 13.5px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      text-align: center;
+      background: #0d6fae;
+      color: #fff;
+    }
+    .announce-bar[hidden] { display: none; }
+    .announce-bar.warning { background: #c96d12; color: #fff; }
+    .announce-bar.danger { background: #b5342b; color: #fff; }
+    .announce-bar button { border: 0; background: rgba(255,255,255,.22); color: #fff; border-radius: 5px; padding: 3px 9px; font-size: 12px; font-weight: 700; }
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+    .lang-switch {
+      display: inline-flex;
+      border: 1px solid #d1dde5;
+      border-radius: 7px;
+      overflow: hidden;
+      background: #f5f8fa;
+    }
+    .lang-switch button {
+      border: 0;
+      background: transparent;
+      color: #536b7a;
+      font-size: 12px;
+      font-weight: 750;
+      padding: 6px 10px;
+    }
+    .lang-switch button.active { background: var(--navy); color: #fff; }
+    .track-strip {
+      width: min(980px, calc(100% - 28px));
+      margin: 0 auto 20px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 14px 18px;
+    }
+    .track-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .track-form { display: flex; gap: 8px; flex: 1; min-width: 240px; max-width: 440px; }
+    .track-form input {
+      flex: 1;
+      height: 40px;
+      border: 1px solid #cfdbe3;
+      border-radius: 7px;
+      padding: 0 12px;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+    .track-result {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border-radius: 8px;
+      background: #f6f9fb;
+      border: 1px solid #dbe6ed;
+      font-size: 13.5px;
+    }
+    .track-steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+    .track-step {
+      padding: 8px 10px;
+      border-radius: 6px;
+      background: #e9f0f4;
+      color: #6b7f8c;
+      font-size: 12.5px;
+      font-weight: 700;
+      text-align: center;
+    }
+    .track-step.done { background: #dff4ea; color: #156e4d; border: 1px solid #9fd8be; }
+    .track-step.current { background: #dceefa; color: #09588c; border: 1px solid #8ac2e8; }
+    .ws-locked-chip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      background: #eef6fb;
+      border: 1px solid #c6e0f0;
+      color: var(--navy);
+      padding: 10px 14px;
+      border-radius: 8px;
+      margin-bottom: 14px;
+      font-size: 14px;
+    }
+    .ws-locked-chip[hidden] { display: none; }
+    .mic-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      border: 1px solid #cad8e2;
+      background: #f5f9fc;
+      color: var(--navy);
+      border-radius: 6px;
+      padding: 4px 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+    }
+    .mic-btn.listening { background: #fdeceb; border-color: #e69d98; color: #b5342b; animation: pulseMic 1s infinite; }
+    @keyframes pulseMic { 0%,100% { opacity: 1; } 50% { opacity: .65; } }
+    .photo-gallery { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+    .photo-thumb { position: relative; width: 92px; height: 92px; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); background: #fff; }
+    .photo-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .photo-thumb button {
+      position: absolute; top: 4px; right: 4px; width: 22px; height: 22px; border-radius: 50%; border: 0;
+      background: rgba(6, 47, 77, .85); color: #fff; font-size: 14px; line-height: 1;
+    }
+    .qr-box { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin: 10px 0; }
+    .qr-box canvas { border: 1px solid var(--line); border-radius: 8px; background: #fff; padding: 6px; }
+    .contrib-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+    .contrib-item {
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+      padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fafcfd; font-size: 13px;
+    }
+    .contrib-rank { font-size: 17px; min-width: 28px; text-align: center; }
     .password-wrap { position: relative; }
     .password-wrap input { padding-right: 68px; }
     .password-wrap button { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); border: 0; background: none; color: var(--blue); font-size: 13px; font-weight: 700; }
@@ -960,18 +1075,28 @@
   </style>
 </head>
 <body>
+  <div class="announce-bar" id="globalAnnouncementBar" hidden>
+    <span id="globalAnnouncementText"></span>
+    <button type="button" id="closeAnnouncementBtn">✕</button>
+  </div>
   <div class="app-shell" id="employeeApp">
     <header class="topbar">
       <a class="brand" href="#" onclick="return false;">
         <img alt="Kurumsal Logo" data-brand-logo>
         <span class="brand-company" data-company-name hidden></span>
         <span class="brand-divider"></span>
-        <span class="brand-product">İSG Bildirim Sistemi</span>
+        <span class="brand-product" data-i18n="brandProduct">İSG Bildirim Sistemi</span>
       </a>
-      <button class="admin-link" id="adminOpen" type="button">
-        <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 1 5 5v2h1a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-7a3 3 0 0 1 3-3h1V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v2h6V7a3 3 0 0 0-3-3Z"/></svg>
-        Yönetici Girişi
-      </button>
+      <div class="topbar-right">
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button type="button" class="active" data-lang="tr">TR</button>
+          <button type="button" data-lang="en">EN</button>
+        </div>
+        <button class="admin-link" id="adminOpen" type="button">
+          <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 1 5 5v2h1a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-7a3 3 0 0 1 3-3h1V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v2h6V7a3 3 0 0 0-3-3Z"/></svg>
+          <span data-i18n="adminLoginBtn">Yönetici Girişi</span>
+        </button>
+      </div>
     </header>
 
     <main>
@@ -979,13 +1104,13 @@
         <div class="hero-inner">
           <div>
             <div class="eyebrow" id="heroEyebrow">İŞ SAĞLIĞI VE GÜVENLİĞİ</div>
-            <h1>Ramak Kala <em>Bildirim Sistemi</em></h1>
-            <p class="hero-lead">Bir tehlikeyi fark etmek, bir hayatı kurtarabilir.</p>
-            <p class="hero-sub">Henüz kaza olmadıysa, önlemek için hâlâ zamanımız var.</p>
+            <h1 data-i18n-html="heroTitle">Ramak Kala <em>Bildirim Sistemi</em></h1>
+            <p class="hero-lead" data-i18n="heroLead">Bir tehlikeyi fark etmek, bir hayatı kurtarabilir.</p>
+            <p class="hero-sub" data-i18n="heroSub">Henüz kaza olmadıysa, önlemek için hâlâ zamanımız var.</p>
           </div>
           <div class="hero-meta">
-            <div class="motto">Fark Et · Bildir · Önleyelim</div>
-            <div class="anon-chip">İsterseniz kimliğinizi paylaşmadan tamamen <strong>isimsiz</strong> bildirim yapabilirsiniz.</div>
+            <div class="motto" data-i18n="heroMotto">Fark Et · Bildir · Önleyelim</div>
+            <div class="anon-chip" data-i18n-html="anonChip">İsterseniz kimliğinizi paylaşmadan tamamen <strong>isimsiz</strong> bildirim yapabilirsiniz.</div>
           </div>
         </div>
       </section>
@@ -993,88 +1118,109 @@
       <section class="form-wrap" id="bildirim-formu">
         <div class="form-head">
           <div>
-            <h2>Yeni Ramak Kala Bildirimi</h2>
-            <p>Üyelik veya parola gerekmez. Formu yaklaşık 1–2 dakikada gönderebilirsiniz.</p>
+            <h2 data-i18n="formTitle">Yeni Ramak Kala Bildirimi</h2>
+            <p data-i18n="formSub">Üyelik veya parola gerekmez. Formu yaklaşık 1–2 dakikada gönderebilirsiniz.</p>
           </div>
         </div>
 
         <form id="reportForm" novalidate>
           <div class="form-section">
-            <h3 class="sec-title"><span>1</span> Kimlik Tercihi <i>(İsteğe bağlı)</i></h3>
+            <h3 class="sec-title"><span>1</span> <b data-i18n="step1Title">Kimlik Tercihi</b> <i data-i18n="optionalTag">(İsteğe bağlı)</i></h3>
             <div class="identity-card">
               <div class="switch-row">
                 <div>
-                  <strong>İsimsiz bildirim</strong>
-                  <p>Kimlik bilgim kaydedilmesin.</p>
+                  <strong data-i18n="anonTitle">İsimsiz bildirim</strong>
+                  <p data-i18n="anonSub">Kimlik bilgim kaydedilmesin.</p>
                 </div>
                 <label class="switch"><input type="checkbox" id="anonymous" checked><span></span></label>
               </div>
-              <div class="privacy-note">İsimsiz bildirimlerde adınız, soyadınız veya kimliğinizi tespit edecek hiçbir bilgi tutulmaz.</div>
-              <label class="field name-field" id="nameField"><span>Adınız ve soyadınız <i>(İsteğe bağlı)</i></span><input type="text" name="fullName" maxlength="120" placeholder="Ad Soyad"></label>
+              <div class="privacy-note" data-i18n="anonPrivacy">İsimsiz bildirimlerde adınız, soyadınız veya kimliğinizi tespit edecek hiçbir bilgi tutulmaz.</div>
+              <label class="field name-field" id="nameField"><span data-i18n-html="nameLabel">Adınız ve soyadınız <i>(İsteğe bağlı)</i></span><input type="text" name="fullName" id="fullNameInput" maxlength="120" placeholder="Ad Soyad"></label>
             </div>
           </div>
 
           <div class="form-section">
-            <h3 class="sec-title"><span>2</span> Olay Bilgileri</h3>
-            <div class="grid grid-2" style="margin-bottom:14px;">
-              <label class="field"><span>Şirket Adı <b>*</b></span>
+            <h3 class="sec-title"><span>2</span> <b data-i18n="step2Title">Olay Bilgileri</b></h3>
+            <div class="ws-locked-chip" id="wsLockedChip" hidden>
+              <span><strong data-i18n="qrSelectedLabel">QR ile seçili alan:</strong> <b id="wsLockedName"></b></span>
+              <button type="button" class="link-btn" id="unlockWsBtn" data-i18n="changeBtn">Değiştir</button>
+            </div>
+            <div class="grid grid-2" id="companySelectorsRow" style="margin-bottom:14px;">
+              <label class="field"><span><span data-i18n="companyLabel">Şirket Adı</span> <b>*</b></span>
                 <select name="companyName" id="companySelect" required>
                   <option value="">Şirketler yükleniyor…</option>
                 </select>
               </label>
-              <label class="field" id="projectSelectField" hidden><span>Proje İsmi <b>*</b></span>
+              <label class="field" id="projectSelectField" hidden><span><span data-i18n="projectLabel">Proje İsmi</span> <b>*</b></span>
                 <select name="workspaceKey" id="projectSelect">
                   <option value="">Proje seçin…</option>
                 </select>
               </label>
             </div>
             <div class="grid grid-3">
-              <label class="field"><span>Olay tarihi <b>*</b></span><input type="date" name="eventDate" required></label>
-              <label class="field"><span>Olay saati <b>*</b></span><input type="time" name="eventTime" required></label>
-              <label class="field"><span>Olay Yeri <b>*</b></span>
+              <label class="field"><span><span data-i18n="dateLabel">Olay tarihi</span> <b>*</b></span><input type="date" name="eventDate" required></label>
+              <label class="field"><span><span data-i18n="timeLabel">Olay saati</span> <b>*</b></span><input type="time" name="eventTime" required></label>
+              <label class="field"><span><span data-i18n="locLabel">Olay Yeri</span> <b>*</b></span>
                 <input type="text" name="department" id="departmentInput" required maxlength="150" placeholder="Olay yerini yazın (ör. Üretim Alanı, Depo, Ofis)">
               </label>
             </div>
           </div>
 
           <div class="form-section">
-            <h3 class="sec-title"><span>3</span> Durum Bilgisi</h3>
+            <h3 class="sec-title"><span>3</span> <b data-i18n="step3Title">Durum Bilgisi</b></h3>
             <div class="grid grid-2">
               <label class="field field-full">
-                <span>Olayın açıklaması <b>*</b></span>
-                <textarea name="description" rows="4" maxlength="2000" required placeholder="Ne oldu? Tehlikeyi nerede ve nasıl fark ettiniz?"></textarea>
-                <small><button type="button" class="example-btn" id="exampleBtn">Örnek açıklama göster</button><span class="char-count">0 / 2000</span></small>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">
+                  <span><span data-i18n="descLabel">Olayın açıklaması</span> <b>*</b></span>
+                  <button type="button" class="mic-btn" id="voiceDictateBtn">🎤 <span data-i18n="voiceBtn">Sesle Yaz</span></button>
+                </div>
+                <textarea name="description" id="descriptionInput" rows="4" maxlength="2000" required placeholder="Ne oldu? Tehlikeyi nerede ve nasıl fark ettiniz?"></textarea>
+                <small><button type="button" class="example-btn" id="exampleBtn" data-i18n="exampleShowBtn">Örnek açıklama göster</button><span class="char-count">0 / 2000</span></small>
               </label>
             </div>
             <div class="example-box" id="exampleBox">
-              <strong>Örnek açıklama</strong>
-              <p>“Çalışma alanında yerde bulunan yağ nedeniyle kayma tehlikesi oluştu. Çalışan kaymak üzereyken dengesini sağlayarak düşmekten kurtuldu.”</p>
-              <button type="button" id="useExample">Bu örneği kullan</button>
+              <strong data-i18n="exampleTitle">Örnek açıklama</strong>
+              <p id="exampleText">“Çalışma alanında yerde bulunan yağ nedeniyle kayma tehlikesi oluştu. Çalışan kaymak üzereyken dengesini sağlayarak düşmekten kurtuldu.”</p>
+              <button type="button" id="useExample" data-i18n="useExampleBtn">Bu örneği kullan</button>
             </div>
           </div>
 
           <div class="form-section">
-            <h3 class="sec-title"><span>4</span> Fotoğraf <i>(İsteğe bağlı)</i></h3>
+            <h3 class="sec-title"><span>4</span> <b data-i18n="step4Title">Fotoğraf</b> <i data-i18n="optionalTag">(İsteğe bağlı · En fazla 3 adet)</i></h3>
             <div class="upload-box" id="uploadBox">
-              <input type="file" id="photo" accept="image/jpeg,image/png,image/webp" hidden>
+              <input type="file" id="photo" accept="image/jpeg,image/png,image/webp" multiple hidden>
               <div class="upload-icon"><svg viewBox="0 0 24 24"><path d="M19 5h-3.2l-1.4-2h-4.8L8.2 5H5a3 3 0 0 0-3 3v9a3 3 0 0 0 3 3h14a3 3 0 0 0 3-3V8a3 3 0 0 0-3-3Zm-7 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/></svg></div>
               <div>
-                <strong>Fotoğraf ekle</strong>
-                <p>Sürükleyin veya <button type="button" id="choosePhoto">cihazdan seçin</button></p>
-                <small>JPG, PNG veya WEBP · En fazla 8 MB</small>
+                <strong data-i18n="photoAddTitle">Fotoğraf ekle (En fazla 3 adet)</strong>
+                <p><span data-i18n="dragOr">Sürükleyin veya</span> <button type="button" id="choosePhoto" data-i18n="choosePhotoBtn">cihazdan seçin</button></p>
+                <small data-i18n="photoRule">JPG, PNG veya WEBP · Her biri en fazla 8 MB</small>
               </div>
-              <div class="photo-preview" id="photoPreview"></div>
+              <div class="photo-gallery" id="photoPreview"></div>
             </div>
           </div>
 
           <div class="consent-row">
             <label class="check">
               <input type="checkbox" name="consent" checked required><span></span>
-              <p><a href="#" id="kvkkOpen">KVKK aydınlatma metnini</a> okudum; bildirim içeriğinin İSG süreçleri kapsamında işlenmesini kabul ediyorum.</p>
+              <p><a href="#" id="kvkkOpen" data-i18n="kvkkLink">KVKK aydınlatma metnini</a> <span data-i18n="consentRest">okudum; bildirim içeriğinin İSG süreçleri kapsamında işlenmesini kabul ediyorum.</span></p>
             </label>
-            <button class="primary-btn" type="submit">BİLDİRİMİ YAP →</button>
+            <button class="primary-btn" type="submit" id="submitReportBtn" data-i18n="submitBtn">BİLDİRİMİ YAP →</button>
           </div>
         </form>
+      </section>
+
+      <section class="track-strip" id="durum-sorgula">
+        <div class="track-row">
+          <div>
+            <strong style="color:var(--navy);font-size:14.5px;" data-i18n="trackTitle">Bildirim Durumu Sorgula</strong>
+            <div style="font-size:12.5px;color:var(--muted);" data-i18n="trackSub">Aldığınız RK-2026-XXXX numarası ile bildiriminizin aşamasını takip edebilirsiniz.</div>
+          </div>
+          <form class="track-form" id="trackReportForm">
+            <input type="text" id="trackReportInput" placeholder="Örn. RK-2026-0001" required>
+            <button type="submit" class="secondary-btn sm" id="trackSubmitBtn" data-i18n="trackBtn">Sorgula</button>
+          </form>
+        </div>
+        <div class="track-result" id="trackResultBox" hidden></div>
       </section>
 
       <section class="help-strip">
@@ -1267,6 +1413,13 @@
               <div class="full-table-wrap"><table class="data-table"><thead><tr><th>Bildirim No</th><th>Olay Yeri</th><th>Durum</th><th>Tarih</th></tr></thead><tbody id="recentReportsBody"></tbody></table></div>
             </article>
           </div>
+
+          <article class="panel" style="margin-top:14px;">
+            <div class="panel-head">
+              <div><h2>Ayın İSG Katkıcıları &amp; Teşekkür Sistemi</h2><p>İsimli bildirim yapan çalışanlar için katkı sıralaması ve tek tıkla teşekkür belgesi</p></div>
+            </div>
+            <ul class="contrib-list" id="contributorsList"></ul>
+          </article>
         </div>
 
         <div class="admin-tab" id="tab-reports">
@@ -1357,6 +1510,33 @@
                 <button type="button" class="primary-btn sm" id="toggleSupportAccessBtn">Destek İzni Ver</button>
                 <button type="button" class="secondary-btn sm" id="managerOpenSupportBtn">Destek Talebi Yaz</button>
               </div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><div><h2>Şirkete Özel QR Kod Üretici</h2><p>Çalışanlar bu QR kodu okuttuğunda şirket seçmeden doğrudan bildirim yapar</p></div></div>
+              <div class="qr-box">
+                <canvas id="workspaceQrCanvas" width="148" height="148"></canvas>
+                <div style="flex:1;min-width:190px;">
+                  <div style="font-size:12px;color:var(--muted);word-break:break-all;margin-bottom:8px;" id="workspaceQrUrlText"></div>
+                  <div class="row-actions" style="flex-wrap:wrap;">
+                    <button type="button" class="primary-btn sm" id="downloadQrPngBtn">QR Kod İndir</button>
+                    <button type="button" class="secondary-btn sm" id="downloadQrPosterBtn">Afiş İndir (PNG)</button>
+                    <button type="button" class="secondary-btn sm" id="copyQrUrlBtn">Linki Kopyala</button>
+                  </div>
+                </div>
+              </div>
+            </article>
+            <article class="panel">
+              <div class="panel-head"><div><h2>WhatsApp / Telegram Anlık Bildirim</h2><p>Yeni ramak kala bildirimleri anında grubunuza veya webhook hattınıza düşsün</p></div></div>
+              <form id="instantNotifForm" class="stack-form">
+                <label class="field"><span>Telegram Bot Token</span><input type="text" id="tgBotTokenInput" placeholder="123456:ABC-DEF..."></label>
+                <label class="field"><span>Telegram Chat / Grup ID</span><input type="text" id="tgChatIdInput" placeholder="-1001234567890"></label>
+                <label class="field"><span>WhatsApp / Webhook URL (CallMeBot, Make, Zapier vb.)</span><input type="url" id="webhookUrlInput" placeholder="https://api.callmebot.com/whatsapp.php?phone=...&apikey=..."></label>
+                <div class="row-actions" style="flex-wrap:wrap;">
+                  <button type="submit" class="primary-btn sm">KAYDET</button>
+                  <button type="button" class="secondary-btn sm" id="testTgBtn">Telegram Test</button>
+                  <button type="button" class="secondary-btn sm" id="testWebhookBtn">Webhook Test</button>
+                </div>
+              </form>
             </article>
           </div>
           <article class="panel" style="margin-top:12px;">
@@ -1530,6 +1710,20 @@
               <form id="saAddDeptForm" class="inline-add-form"><input type="text" id="saNewDeptName" placeholder="Yeni olay yeri adı" required><button type="submit" class="primary-btn sm">EKLE</button></form>
               <ul class="dept-manage-list" id="saDeptManageList"></ul>
             </article>
+            <article class="panel" style="grid-column:1 / -1;">
+              <div class="panel-head"><div><h2>Tek Tıkla Platform Duyuru / Bakım Bandı</h2><p>Tüm şirket yöneticilerinin ve/veya çalışanların ekranında üst uyarı bandı yayınlayın</p></div></div>
+              <form id="saAnnouncementForm" class="stack-form">
+                <label class="field"><span>Duyuru Mesajı</span><input type="text" id="saAnnText" maxlength="500" placeholder="Örn. Bu akşam 22:00'de planlı bakım yapılacaktır."></label>
+                <div class="sa-form-grid">
+                  <label class="field"><span>Renk / Önem</span><select id="saAnnType"><option value="info">Bilgi (Mavi)</option><option value="warning">Bakım / Uyarı (Turuncu)</option><option value="danger">Acil Duyuru (Kırmızı)</option></select></label>
+                  <label class="field"><span>Kimler Görsün?</span><select id="saAnnTarget"><option value="ALL">Herkes (Çalışan + Yöneticiler)</option><option value="ADMINS">Sadece Yöneticiler</option><option value="EMPLOYEES">Sadece Çalışan Formu</option></select></label>
+                </div>
+                <div class="row-actions">
+                  <button type="submit" class="primary-btn sm">DUYURUYU YAYINLA</button>
+                  <button type="button" class="secondary-btn sm" id="saClearAnnBtn">Duyuruyu Kaldır</button>
+                </div>
+              </form>
+            </article>
           </div>
           <article class="panel">
             <div class="panel-head"><div><h2>Sistem E-posta İletim Kayıtları</h2><p>Gizlilik gereği yalnızca bildirim numarası, alıcı ve teslim durumu gösterilir</p></div></div>
@@ -1658,10 +1852,18 @@
     let currentAdmin = null;
     let publicCompanies = [];
     let pendingPayload = null;
-    let photoFileInfo = null;
+    let photoFiles = [];
     let submissionToken = 'tok-' + Date.now() + '-' + Math.random().toString(36).slice(2);
     let currentDetailNo = '';
     let currentDetailReport = null;
+    let currentLang = 'tr';
+    try { currentLang = localStorage.getItem('rk_lang') === 'en' ? 'en' : 'tr'; } catch {}
+    let lockedWorkspaceKey = '';
+    try {
+      const spInit = new URLSearchParams(window.location.search);
+      if (spInit.get('ws')) lockedWorkspaceKey = spInit.get('ws').trim();
+    } catch {}
+    let latestAnnouncement = null;
 
     const OLD_GAS_DEPLOYMENT = 'AKfycbwuKQqLaq6bFAO8HtIUoRyCpzTWYeoA-obJNmJyakbhZ8KVLImkEcMzKpgpl1mAKtj-Vg';
     try {
@@ -1706,49 +1908,314 @@
     form.eventDate.value = localDate();
     form.eventTime.value = new Date().toTimeString().slice(0,5);
 
+    const I18N = {
+      tr: {
+        brandProduct: 'İSG Bildirim Sistemi',
+        adminLoginBtn: 'Yönetici Girişi',
+        heroEyebrow: 'İŞ SAĞLIĞI VE GÜVENLİĞİ',
+        heroTitle: 'Ramak Kala <em>Bildirim Sistemi</em>',
+        heroLead: 'Bir tehlikeyi fark etmek, bir hayatı kurtarabilir.',
+        heroSub: 'Henüz kaza olmadıysa, önlemek için hâlâ zamanımız var.',
+        heroMotto: 'Fark Et · Bildir · Önleyelim',
+        anonChip: 'İsterseniz kimliğinizi paylaşmadan tamamen <strong>isimsiz</strong> bildirim yapabilirsiniz.',
+        formTitle: 'Yeni Ramak Kala Bildirimi',
+        formSub: 'Üyelik veya parola gerekmez. Formu yaklaşık 1–2 dakikada gönderebilirsiniz.',
+        step1Title: 'Kimlik Tercihi',
+        optionalTag: '(İsteğe bağlı)',
+        anonTitle: 'İsimsiz bildirim',
+        anonSub: 'Kimlik bilgim kaydedilmesin.',
+        anonPrivacy: 'İsimsiz bildirimlerde adınız, soyadınız veya kimliğinizi tespit edecek hiçbir bilgi tutulmaz.',
+        nameLabel: 'Adınız ve soyadınız <i>(İsteğe bağlı)</i>',
+        step2Title: 'Olay Bilgileri',
+        qrSelectedLabel: 'QR ile seçili alan:',
+        changeBtn: 'Değiştir',
+        companyLabel: 'Şirket Adı',
+        projectLabel: 'Proje İsmi',
+        dateLabel: 'Olay tarihi',
+        timeLabel: 'Olay saati',
+        locLabel: 'Olay Yeri',
+        step3Title: 'Durum Bilgisi',
+        descLabel: 'Olayın açıklaması',
+        voiceBtn: 'Sesle Yaz',
+        voiceListening: 'Dinleniyor… (Durdur)',
+        exampleShowBtn: 'Örnek açıklama göster',
+        exampleTitle: 'Örnek açıklama',
+        exampleBody: '“Çalışma alanında yerde bulunan yağ nedeniyle kayma tehlikesi oluştu. Çalışan kaymak üzereyken dengesini sağlayarak düşmekten kurtuldu.”',
+        useExampleBtn: 'Bu örneği kullan',
+        step4Title: 'Fotoğraf',
+        photoAddTitle: 'Fotoğraf ekle (En fazla 3 adet)',
+        dragOr: 'Sürükleyin veya',
+        choosePhotoBtn: 'cihazdan seçin',
+        photoRule: 'JPG, PNG veya WEBP · Her biri en fazla 8 MB',
+        kvkkLink: 'KVKK aydınlatma metnini',
+        consentRest: 'okudum; bildirim içeriğinin İSG süreçleri kapsamında işlenmesini kabul ediyorum.',
+        submitBtn: 'BİLDİRİMİ YAP →',
+        trackTitle: 'Bildirim Durumu Sorgula',
+        trackSub: 'Aldığınız RK-2026-XXXX numarası ile bildiriminizin aşamasını takip edebilirsiniz.',
+        trackBtn: 'Sorgula',
+        phName: 'Ad Soyad',
+        phLoc: 'Olay yerini yazın (ör. Üretim Alanı, Depo, Ofis)',
+        phDesc: 'Ne oldu? Tehlikeyi nerede ve nasıl fark ettiniz?',
+        phTrack: 'Örn. RK-2026-0001',
+        noCompanies: 'Henüz kayıtlı şirket yok, lütfen yöneticiniz Üye Ol panelinden üye olup şirketinizi tanımlasın.',
+        selectCompany: 'Şirket seçin…',
+        selectProject: 'Proje seçin…',
+        stepNew: 'Yeni Bildirim',
+        stepReview: 'İncelendi',
+        stepClosed: 'Kapatıldı',
+      },
+      en: {
+        brandProduct: 'HSE Reporting System',
+        adminLoginBtn: 'Manager Login',
+        heroEyebrow: 'OCCUPATIONAL HEALTH & SAFETY',
+        heroTitle: 'Near-Miss <em>Reporting System</em>',
+        heroLead: 'Noticing a hazard early can save a life.',
+        heroSub: 'If an accident has not happened yet, there is still time to prevent it.',
+        heroMotto: 'Spot · Report · Prevent',
+        anonChip: 'You can submit a completely <strong>anonymous</strong> report without sharing your identity.',
+        formTitle: 'New Near-Miss Report',
+        formSub: 'No account or password required. You can complete this form in 1–2 minutes.',
+        step1Title: 'Identity Preference',
+        optionalTag: '(Optional)',
+        anonTitle: 'Anonymous report',
+        anonSub: 'Do not record my identity details.',
+        anonPrivacy: 'In anonymous reports, your name or any identifying details are never recorded.',
+        nameLabel: 'Full name <i>(Optional)</i>',
+        step2Title: 'Incident Details',
+        qrSelectedLabel: 'Selected via QR:',
+        changeBtn: 'Change',
+        companyLabel: 'Company Name',
+        projectLabel: 'Project Name',
+        dateLabel: 'Incident date',
+        timeLabel: 'Incident time',
+        locLabel: 'Incident Location',
+        step3Title: 'Situation Details',
+        descLabel: 'Incident description',
+        voiceBtn: 'Voice Input',
+        voiceListening: 'Listening… (Stop)',
+        exampleShowBtn: 'Show sample description',
+        exampleTitle: 'Sample description',
+        exampleBody: '“Oil spilled on the work floor created a slip hazard. An employee nearly slipped but regained balance without falling.”',
+        useExampleBtn: 'Use this sample',
+        step4Title: 'Photos',
+        photoAddTitle: 'Add photos (Up to 3 files)',
+        dragOr: 'Drag & drop or',
+        choosePhotoBtn: 'browse device',
+        photoRule: 'JPG, PNG or WEBP · Max 8 MB each',
+        kvkkLink: 'privacy notice',
+        consentRest: 'read and accepted; I consent to processing this report for HSE safety purposes.',
+        submitBtn: 'SUBMIT REPORT →',
+        trackTitle: 'Check Report Status',
+        trackSub: 'Enter your RK-2026-XXXX code to track your report progress.',
+        trackBtn: 'Check',
+        phName: 'Full Name',
+        phLoc: 'Enter location (e.g. Production Area, Warehouse, Office)',
+        phDesc: 'What happened? Where and how did you notice the hazard?',
+        phTrack: 'e.g. RK-2026-0001',
+        noCompanies: 'No registered companies yet. Please ask your manager to sign up and register the company.',
+        selectCompany: 'Select company…',
+        selectProject: 'Select project…',
+        stepNew: 'New Report',
+        stepReview: 'Reviewed',
+        stepClosed: 'Closed',
+      }
+    };
+
+    function applyLanguage(lang) {
+      currentLang = lang === 'en' ? 'en' : 'tr';
+      try { localStorage.setItem('rk_lang', currentLang); } catch {}
+      const d = I18N[currentLang];
+      $$('.lang-switch button').forEach(b => b.classList.toggle('active', b.dataset.lang === currentLang));
+      $$('[data-i18n]').forEach(el => { const k = el.dataset.i18n; if (d[k]) el.textContent = d[k]; });
+      $$('[data-i18n-html]').forEach(el => { const k = el.dataset.i18nHtml; if (d[k]) el.innerHTML = d[k]; });
+      if ($('#fullNameInput')) $('#fullNameInput').placeholder = d.phName;
+      if ($('#departmentInput')) $('#departmentInput').placeholder = d.phLoc;
+      if ($('#descriptionInput')) $('#descriptionInput').placeholder = d.phDesc;
+      if ($('#trackReportInput')) $('#trackReportInput').placeholder = d.phTrack;
+      if ($('#exampleText')) $('#exampleText').textContent = d.exampleBody;
+      const heroEyebrow = $('#heroEyebrow');
+      if (heroEyebrow) heroEyebrow.textContent = currentCompanyName ? (currentCompanyName.toLocaleUpperCase('tr-TR') + ' · ' + d.heroEyebrow) : d.heroEyebrow;
+      if (publicCompanies && publicCompanies.length >= 0) {
+        const prevC = $('#companySelect')?.value || '';
+        const prevW = $('#projectSelect')?.value || '';
+        renderCompanySelectors(publicCompanies, prevC, prevW);
+      }
+    }
+    $$('.lang-switch button').forEach(b => b.addEventListener('click', () => applyLanguage(b.dataset.lang)));
+
+    function renderAnnouncementBar(ann, context) {
+      latestAnnouncement = ann || null;
+      const bar = $('#globalAnnouncementBar');
+      const txt = $('#globalAnnouncementText');
+      if (!bar || !txt) return;
+      if (!ann || !ann.active || !ann.text) { bar.hidden = true; return; }
+      const t = ann.target || 'ALL';
+      const show = (t === 'ALL') || (t === context);
+      const dismissKey = 'rk_ann_dismiss_' + ann.text.slice(0, 40);
+      if (!show || sessionStorage.getItem(dismissKey) === '1') { bar.hidden = true; return; }
+      bar.className = 'announce-bar ' + (ann.type === 'warning' || ann.type === 'danger' ? ann.type : '');
+      txt.textContent = ann.text;
+      bar.hidden = false;
+      $('#closeAnnouncementBtn').onclick = () => {
+        try { sessionStorage.setItem(dismissKey, '1'); } catch {}
+        bar.hidden = true;
+      };
+    }
+
     anonymous.addEventListener('change', ()=>{ $('#nameField').classList.toggle('visible', !anonymous.checked); if(anonymous.checked) form.fullName.value=''; });
     form.description.addEventListener('input', ()=> $('.char-count').textContent = form.description.value.length + ' / 2000');
     $('#exampleBtn').addEventListener('click', ()=> $('#exampleBox').classList.toggle('open'));
-    $('#useExample').addEventListener('click', ()=>{ form.description.value='Çalışma alanında yerde bulunan yağ nedeniyle kayma tehlikesi oluştu. Çalışan kaymak üzereyken dengesini sağlayarak düşmekten kurtuldu.'; form.description.dispatchEvent(new Event('input')); $('#exampleBox').classList.remove('open'); });
+    $('#useExample').addEventListener('click', ()=>{
+      form.description.value = currentLang === 'en'
+        ? 'Oil spilled on the work floor created a slip hazard. An employee nearly slipped but regained balance without falling.'
+        : 'Çalışma alanında yerde bulunan yağ nedeniyle kayma tehlikesi oluştu. Çalışan kaymak üzereyken dengesini sağlayarak düşmekten kurtuldu.';
+      form.description.dispatchEvent(new Event('input'));
+      $('#exampleBox').classList.remove('open');
+    });
+
+    // Sesle Yaz (Web Speech API)
+    const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+    let voiceRec = null;
+    let voiceActive = false;
+    $('#voiceDictateBtn')?.addEventListener('click', () => {
+      if (!SpeechRec) return toast(currentLang === 'en' ? 'Voice input is not supported in this browser' : 'Tarayıcınız sesle yazmayı desteklemiyor', '!');
+      if (voiceActive && voiceRec) { voiceRec.stop(); return; }
+      voiceRec = new SpeechRec();
+      voiceRec.lang = currentLang === 'en' ? 'en-US' : 'tr-TR';
+      voiceRec.continuous = true;
+      voiceRec.interimResults = false;
+      const btn = $('#voiceDictateBtn');
+      const setMicUi = active => {
+        voiceActive = active;
+        btn.classList.toggle('listening', active);
+        btn.querySelector('span').textContent = active ? I18N[currentLang].voiceListening : I18N[currentLang].voiceBtn;
+      };
+      voiceRec.onstart = () => setMicUi(true);
+      voiceRec.onend = () => setMicUi(false);
+      voiceRec.onerror = () => { setMicUi(false); toast(currentLang === 'en' ? 'Microphone access failed' : 'Mikrofon erişimi sağlanamadı', '!'); };
+      voiceRec.onresult = ev => {
+        let added = '';
+        for (let i = ev.resultIndex; i < ev.results.length; i++) {
+          if (ev.results[i].isFinal) added += (added ? ' ' : '') + ev.results[i][0].transcript.trim();
+        }
+        if (added) {
+          const cur = form.description.value;
+          form.description.value = (cur ? cur.replace(/\s+$/, '') + ' ' : '') + added;
+          form.description.dispatchEvent(new Event('input'));
+        }
+      };
+      voiceRec.start();
+    });
 
     const photoInput = $('#photo'), preview = $('#photoPreview'), uploadBox = $('#uploadBox');
     $('#choosePhoto').addEventListener('click', ()=>photoInput.click());
     uploadBox.addEventListener('dragover', e=>{e.preventDefault();uploadBox.classList.add('drag');});
     uploadBox.addEventListener('dragleave', ()=>uploadBox.classList.remove('drag'));
-    uploadBox.addEventListener('drop', e=>{e.preventDefault();uploadBox.classList.remove('drag'); if(e.dataTransfer.files[0]) handlePhoto(e.dataTransfer.files[0]);});
-    photoInput.addEventListener('change', ()=>photoInput.files[0] && handlePhoto(photoInput.files[0]));
-    function handlePhoto(file) {
-      if(!['image/jpeg','image/png','image/webp'].includes(file.type)) return toast('JPG, PNG veya WEBP seçin','!');
-      if(file.size > 8*1024*1024) return toast('Maksimum dosya boyutu 8 MB olmalıdır','!');
-      const r = new FileReader();
-      r.onload = () => {
-        const b64 = String(r.result).split(',')[1];
-        photoFileInfo = { base64: b64, mime: file.type, name: file.name, dataUrl: r.result };
-        preview.innerHTML = '<img src="'+r.result+'"><button type="button" id="removePhoto">×</button>';
-        preview.classList.add('visible');
-        $('#removePhoto').onclick = clearPhoto;
-      };
-      r.readAsDataURL(file);
+    uploadBox.addEventListener('drop', e=>{e.preventDefault();uploadBox.classList.remove('drag'); if(e.dataTransfer.files?.length) handlePhotos(e.dataTransfer.files);});
+    photoInput.addEventListener('change', ()=>{ if(photoInput.files?.length) handlePhotos(photoInput.files); photoInput.value=''; });
+    function renderPhotoGallery() {
+      if (!photoFiles.length) { preview.innerHTML = ''; return; }
+      preview.innerHTML = photoFiles.map((p, idx) =>
+        '<div class="photo-thumb"><img src="' + p.dataUrl + '" alt=""><button type="button" data-rm-photo="' + idx + '">×</button></div>'
+      ).join('');
+      $$('[data-rm-photo]', preview).forEach(b => b.addEventListener('click', () => {
+        photoFiles.splice(Number(b.dataset.rmPhoto), 1);
+        renderPhotoGallery();
+      }));
     }
-    function clearPhoto() { photoFileInfo=null; photoInput.value=''; preview.classList.remove('visible'); preview.innerHTML=''; }
+    function handlePhotos(fileList) {
+      const files = [...fileList];
+      for (const file of files) {
+        if (photoFiles.length >= 3) { toast(currentLang === 'en' ? 'Maximum 3 photos allowed' : 'En fazla 3 fotoğraf ekleyebilirsiniz', '!'); break; }
+        if(!['image/jpeg','image/png','image/webp'].includes(file.type)) { toast('JPG, PNG veya WEBP seçin','!'); continue; }
+        if(file.size > 8*1024*1024) { toast('Maksimum dosya boyutu 8 MB olmalıdır','!'); continue; }
+        const r = new FileReader();
+        r.onload = () => {
+          if (photoFiles.length >= 3) return;
+          const b64 = String(r.result).split(',')[1];
+          photoFiles.push({ base64: b64, mime: file.type, name: file.name, dataUrl: r.result });
+          renderPhotoGallery();
+        };
+        r.readAsDataURL(file);
+      }
+    }
+    function clearPhoto() { photoFiles=[]; photoInput.value=''; renderPhotoGallery(); }
+
+    // Durum Sorgulama (Çalışan)
+    $('#trackReportForm')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      const box = $('#trackResultBox');
+      const code = $('#trackReportInput').value.trim().toUpperCase();
+      if (!code) return;
+      const btn = $('#trackSubmitBtn'); btn.disabled = true;
+      try {
+        const res = await gasCall('checkReportStatus', code);
+        box.hidden = false;
+        if (!res.ok) {
+          box.innerHTML = '<span style="color:#b5342b;font-weight:700;">' + escapeHTML(res.error) + '</span>';
+          return;
+        }
+        const st = res.status || 'Yeni Bildirim';
+        const stepIdx = st === 'Kapatıldı' ? 2 : (st === 'Yeni Bildirim' ? 0 : 1);
+        const labels = [I18N[currentLang].stepNew, I18N[currentLang].stepReview, I18N[currentLang].stepClosed];
+        box.innerHTML =
+          '<div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;">' +
+            '<strong>' + escapeHTML(res.reportNumber) + ' · ' + escapeHTML(res.companyName || '') + (res.projectName ? ' (' + escapeHTML(res.projectName) + ')' : '') + '</strong>' +
+            '<span style="color:var(--muted);">' + escapeHTML(res.department || '') + ' · ' + formatDate(res.eventDate) + '</span>' +
+          '</div>' +
+          '<div class="track-steps">' +
+            labels.map((lb, idx) => '<div class="track-step ' + (idx < stepIdx ? 'done' : (idx === stepIdx ? 'current' : '')) + '">' + (idx <= stepIdx ? '✓ ' : '') + escapeHTML(lb) + '</div>').join('') +
+          '</div>';
+      } catch(err) {
+        box.hidden = false;
+        box.innerHTML = '<span style="color:#b5342b;">' + escapeHTML(err.message || err) + '</span>';
+      } finally { btn.disabled = false; }
+    });
 
     function renderCompanySelectors(companies, selectedCompany, selectedWorkspaceKey) {
       publicCompanies = Array.isArray(companies) ? companies : [];
       const cs = $('#companySelect');
       const pf = $('#projectSelectField');
       const ps = $('#projectSelect');
+      const lockChip = $('#wsLockedChip');
+      const selRow = $('#companySelectorsRow');
       if (!cs) return;
 
+      const d = I18N[currentLang];
       if (!publicCompanies.length) {
-        cs.innerHTML = '<option value="">Henüz kayıtlı şirket yok, lütfen yöneticiniz Üye Ol panelinden üye olup şirketinizi tanımlasın.</option>';
+        cs.innerHTML = '<option value="">' + escapeHTML(d.noCompanies) + '</option>';
         pf.hidden = true;
         ps.required = false;
         ps.innerHTML = '';
+        if (lockChip) lockChip.hidden = true;
+        if (selRow) selRow.hidden = false;
         return;
       }
 
-      cs.innerHTML = (publicCompanies.length > 1 ? '<option value="">Şirket seçin…</option>' : '') +
+      cs.innerHTML = (publicCompanies.length > 1 ? '<option value="">' + escapeHTML(d.selectCompany) + '</option>' : '') +
         publicCompanies.map(c => '<option value="' + escapeHTML(c.companyName) + '">' + escapeHTML(c.companyName) + '</option>').join('');
+
+      let matchedLock = null;
+      if (lockedWorkspaceKey) {
+        for (const c of publicCompanies) {
+          const mp = (c.projects || []).find(p => p.workspaceKey === lockedWorkspaceKey);
+          if (mp) { matchedLock = { comp: c, proj: mp }; break; }
+        }
+      }
+
+      if (matchedLock) {
+        cs.value = matchedLock.comp.companyName;
+        onCompanySelectionChange(matchedLock.proj.workspaceKey);
+        if (lockChip && selRow) {
+          $('#wsLockedName').textContent = matchedLock.comp.companyName + ' · ' + matchedLock.proj.projectName;
+          lockChip.hidden = false;
+          selRow.hidden = true;
+        }
+        return;
+      }
+
+      if (lockChip) lockChip.hidden = true;
+      if (selRow) selRow.hidden = false;
 
       if (selectedCompany && publicCompanies.some(c => c.companyName === selectedCompany)) {
         cs.value = selectedCompany;
@@ -1758,6 +2225,12 @@
       onCompanySelectionChange(selectedWorkspaceKey);
     }
 
+    $('#unlockWsBtn')?.addEventListener('click', () => {
+      lockedWorkspaceKey = '';
+      if ($('#wsLockedChip')) $('#wsLockedChip').hidden = true;
+      if ($('#companySelectorsRow')) $('#companySelectorsRow').hidden = false;
+    });
+
     function onCompanySelectionChange(preferredWorkspaceKey) {
       const cs = $('#companySelect');
       const pf = $('#projectSelectField');
@@ -1766,7 +2239,7 @@
       if (!comp) {
         pf.hidden = true;
         ps.required = false;
-        ps.innerHTML = '<option value="">Proje seçin…</option>';
+        ps.innerHTML = '<option value="">' + escapeHTML(I18N[currentLang].selectProject) + '</option>';
         return;
       }
       const projs = comp.projects || [];
@@ -1781,7 +2254,7 @@
       } else {
         pf.hidden = false;
         ps.required = true;
-        ps.innerHTML = '<option value="">Proje seçin…</option>' +
+        ps.innerHTML = '<option value="">' + escapeHTML(I18N[currentLang].selectProject) + '</option>' +
           projs.map(p => '<option value="' + escapeHTML(p.workspaceKey) + '">' + escapeHTML(p.projectName) + '</option>').join('');
         if (preferredWorkspaceKey && projs.some(p => p.workspaceKey === preferredWorkspaceKey)) {
           ps.value = preferredWorkspaceKey;
@@ -1811,6 +2284,7 @@
       if(isNewSession) sessionStorage.setItem('rk_vsid', '1');
       try {
         const cfg = await gasCall('getPublicConfig', vid, isNewSession);
+        renderAnnouncementBar(cfg.announcement, 'EMPLOYEES');
         const companies = cfg.companies || [];
         const prevCompany = $('#companySelect')?.value || '';
         const prevWs = $('#projectSelect')?.value || '';
@@ -1826,10 +2300,11 @@
         if (cs) {
           cs.innerHTML = (!GAS_API_URL && typeof google === 'undefined')
             ? '<option value="">Apps Script /exec bağlantısı henüz tanımlı değil (GAS_API_URL)</option>'
-            : '<option value="">Henüz kayıtlı şirket yok, lütfen yöneticiniz Üye Ol panelinden üye olup şirketinizi tanımlasın.</option>';
+            : '<option value="">' + escapeHTML(I18N[currentLang].noCompanies) + '</option>';
         }
       }
     }
+    applyLanguage(currentLang);
     initPublicConfig(true);
 
     form.addEventListener('submit', e => {
@@ -1840,7 +2315,7 @@
         const inv = x.type==='checkbox' ? !x.checked : !x.value.trim();
         if(inv) { if(x.type!=='checkbox') x.classList.add('invalid'); if(!first) first=x; }
       });
-      if(first) { first.scrollIntoView({behavior:'smooth',block:'center'}); return toast('Lütfen zorunlu alanları doldurun','!'); }
+      if(first) { first.scrollIntoView({behavior:'smooth',block:'center'}); return toast(currentLang==='en'?'Please complete all required fields':'Lütfen zorunlu alanları doldurun','!'); }
       const fd = new FormData(form), en = Object.fromEntries(fd.entries()), isAnon = anonymous.checked;
       const selectedCompanyName = (en.companyName || $('#companySelect').value || '').trim();
       const selectedWsKey = ($('#projectSelect').value || '').trim();
@@ -1851,18 +2326,20 @@
         return toast('Lütfen geçerli bir Şirket Adı ve Proje seçin', '!');
       }
       pendingPayload = {
-        companyName: projObj.companyName,
+        companyName: compObj.companyName,
         projectName: projObj.projectName,
         workspaceKey: projObj.workspaceKey,
         eventDate: en.eventDate, eventTime: en.eventTime, department: (en.department||'').trim(), eventType: 'Ramak kala',
         description: en.description.trim(), risk: '—', outcome: '—', measure: '—',
         isAnonymous: isAnon, fullName: isAnon ? 'Anonim' : (en.fullName||'').trim()||'Anonim',
         submissionToken,
-        photoBase64: photoFileInfo ? photoFileInfo.base64 : '',
-        photoMime: photoFileInfo ? photoFileInfo.mime : '',
-        photoName: photoFileInfo ? photoFileInfo.name : '',
+        photos: photoFiles.map(p => ({ base64: p.base64, mime: p.mime, name: p.name })),
+        photoBase64: photoFiles[0] ? photoFiles[0].base64 : '',
+        photoMime: photoFiles[0] ? photoFiles[0].mime : '',
+        photoName: photoFiles[0] ? photoFiles[0].name : '',
       };
-      const rows = [['Şirket Adı', pendingPayload.companyName + (pendingPayload.projectName ? ' (' + pendingPayload.projectName + ')' : '')], ['Olay tarihi / saati', formatDate(pendingPayload.eventDate)+' · '+pendingPayload.eventTime],['Olay Yeri',pendingPayload.department],['Açıklama',pendingPayload.description],['Bildirim tercihi',isAnon?'İsimsiz bildirim':pendingPayload.fullName],['Fotoğraf',photoFileInfo?photoFileInfo.name:'Eklenmedi']];
+      const photoSummary = photoFiles.length ? (photoFiles.length + ' adet (' + photoFiles.map(p=>p.name).join(', ') + ')') : 'Eklenmedi';
+      const rows = [['Şirket Adı', pendingPayload.companyName + (pendingPayload.projectName ? ' (' + pendingPayload.projectName + ')' : '')], ['Olay tarihi / saati', formatDate(pendingPayload.eventDate)+' · '+pendingPayload.eventTime],['Olay Yeri',pendingPayload.department],['Açıklama',pendingPayload.description],['Bildirim tercihi',isAnon?'İsimsiz bildirim':pendingPayload.fullName],['Fotoğraf',photoSummary]];
       $('#reviewList').innerHTML = rows.map(([a,b])=>'<div class="review-item"><span>'+escapeHTML(a)+'</span><b>'+escapeHTML(b)+'</b></div>').join('');
       openModal('reviewModal');
     });
@@ -2111,6 +2588,7 @@
     async function loadDashboard() {
       const d = await gasCall('getAdminDashboard', adminToken);
       if (d.admin) currentAdmin = d.admin;
+      renderAnnouncementBar(d.announcement, 'ADMINS');
       const m = d.metrics;
       $('#mTotalReports').textContent = m.totalReports;
       $('#mPeriodReports').textContent = 'Son 7 gün: ' + m.last7DaysReports + ' · 30 gün: ' + m.last30DaysReports;
@@ -2164,6 +2642,112 @@
         ? '<tr><td colspan="4"><div class="empty-state">Henüz bildirim yok.</div></td></tr>'
         : rec.map(r=>'<tr data-no="'+escapeHTML(r.reportNumber)+'"><td><strong>'+escapeHTML(r.reportNumber)+'</strong></td><td>'+escapeHTML(r.department)+'</td><td>'+badgeHtml(r.status)+'</td><td>'+formatDate(r.eventDate)+'</td></tr>').join('');
       $$('#recentReportsBody [data-no]').forEach(el=>el.addEventListener('click', ()=>openDetail(el.dataset.no)));
+
+      const contribs = d.topContributors || [];
+      const cList = $('#contributorsList');
+      if (cList) {
+        const medals = ['🥇', '🥈', '🥉'];
+        cList.innerHTML = !contribs.length
+          ? '<li class="contrib-item"><span style="color:var(--muted);">Henüz isimli bildirim yapan çalışan kaydı bulunmuyor.</span></li>'
+          : contribs.map((c, idx) =>
+              '<li class="contrib-item">' +
+                '<div style="display:flex;align-items:center;gap:10px;">' +
+                  '<span class="contrib-rank">' + (medals[idx] || ('#' + (idx + 1))) + '</span>' +
+                  '<div><strong>' + escapeHTML(c.fullName) + '</strong><br><small style="color:var(--muted);">Bu ay: ' + c.monthCount + ' · Toplam: ' + c.totalCount + ' · Kapatılan: ' + c.closedCount + '</small></div>' +
+                '</div>' +
+                '<button type="button" class="secondary-btn sm" data-cert-idx="' + idx + '">Teşekkür Belgesi İndir</button>' +
+              '</li>'
+            ).join('');
+        $$('[data-cert-idx]', cList).forEach(b => b.addEventListener('click', () => {
+          const c = contribs[Number(b.dataset.certIdx)];
+          if (c) downloadCertificatePng(c);
+        }));
+      }
+    }
+
+    async function downloadCertificatePng(contrib) {
+      const W = 1600, H = 1131;
+      const canvas = document.createElement('canvas');
+      canvas.width = W; canvas.height = H;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#fcfaf4';
+      ctx.fillRect(0, 0, W, H);
+      ctx.strokeStyle = '#062f4d';
+      ctx.lineWidth = 18;
+      ctx.strokeRect(36, 36, W - 72, H - 72);
+      ctx.strokeStyle = '#d49a2a';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(58, 58, W - 116, H - 116);
+
+      try {
+        const logoSrc = $('[data-brand-logo]')?.src || DEFAULT_LOGO_DATA_URI;
+        const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = logoSrc; });
+        const maxW = 180, maxH = 110;
+        const sc = Math.min(maxW / (img.naturalWidth || 100), maxH / (img.naturalHeight || 100));
+        const dw = (img.naturalWidth || 100) * sc, dh = (img.naturalHeight || 100) * sc;
+        ctx.drawImage(img, (W - dw) / 2, 92, dw, dh);
+      } catch {}
+
+      const compLabel = (currentAdmin && currentAdmin.companyName ? currentAdmin.companyName : currentCompanyName || 'İŞ SAĞLIĞI VE GÜVENLİĞİ').toLocaleUpperCase('tr-TR');
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#5a6f7e';
+      ctx.font = 'bold 24px Arial, sans-serif';
+      ctx.fillText(compLabel, W / 2, 244);
+
+      ctx.fillStyle = '#062f4d';
+      ctx.font = 'bold 62px Georgia, serif';
+      ctx.fillText('İSG TEŞEKKÜR BELGESİ', W / 2, 336);
+
+      ctx.strokeStyle = '#ee7d22';
+      ctx.lineWidth = 3;
+      ctx.beginPath(); ctx.moveTo(W / 2 - 220, 366); ctx.lineTo(W / 2 + 220, 366); ctx.stroke();
+
+      ctx.fillStyle = '#334857';
+      ctx.font = '26px Arial, sans-serif';
+      ctx.fillText('Sayın', W / 2, 434);
+
+      ctx.fillStyle = '#0d6fae';
+      ctx.font = 'bold 54px Georgia, serif';
+      ctx.fillText(contrib.fullName || 'Değerli Çalışanımız', W / 2, 514);
+
+      ctx.fillStyle = '#243746';
+      ctx.font = '25px Arial, sans-serif';
+      const lines = [
+        'İşyerimizde tehlikelerin erken fark edilmesi, ramak kala olayların bildirilmesi',
+        've proaktif İş Sağlığı ve Güvenliği kültürünün güçlendirilmesine sağladığınız',
+        'değerli katkılardan dolayı teşekkür eder, başarılarınızın devamını dileriz.'
+      ];
+      lines.forEach((ln, idx) => ctx.fillText(ln, W / 2, 608 + idx * 42));
+
+      ctx.fillStyle = '#1b8a62';
+      ctx.font = 'bold 24px Arial, sans-serif';
+      ctx.fillText('Toplam Bildirim: ' + contrib.totalCount + ' · Bu Ay: ' + contrib.monthCount, W / 2, 774);
+
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#475c6b';
+      ctx.font = '22px Arial, sans-serif';
+      ctx.fillText('Tarih: ' + formatDate(localDate()), 150, 945);
+      if (currentAdmin && currentAdmin.projectName) {
+        ctx.fillText('Proje / Birim: ' + currentAdmin.projectName, 150, 982);
+      }
+
+      ctx.textAlign = 'right';
+      ctx.fillStyle = '#062f4d';
+      ctx.font = 'bold 24px Arial, sans-serif';
+      ctx.fillText((currentAdmin && currentAdmin.fullName) || 'İSG Yöneticisi', W - 150, 945);
+      ctx.fillStyle = '#5a6f7e';
+      ctx.font = '20px Arial, sans-serif';
+      ctx.fillText('İSG Yönetim Onayı', W - 150, 980);
+
+      canvas.toBlob(blob => {
+        if (!blob) return;
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'ISG-Tesekkur-Belgesi-' + (contrib.fullName || 'Calisan').replace(/\s+/g, '-') + '.png';
+        a.click();
+        URL.revokeObjectURL(a.href);
+        toast('Teşekkür belgesi indirildi');
+      }, 'image/png');
     }
 
     async function loadReports() {
@@ -2191,7 +2775,17 @@
       if (r.outcome && r.outcome !== '—') rows.push(['Olası sonuç', r.outcome]);
       if (r.measure && r.measure !== '—' && r.measure !== 'Belirtilmedi') rows.push(['Önlem', r.measure]);
       $('#detailSummaryList').innerHTML = rows.map(([a,b])=>'<div class="review-item"><span>'+escapeHTML(a)+'</span><b>'+escapeHTML(b)+'</b></div>').join('');
-      if(res.photoDataUrl) { $('#detailPhotoImg').src=res.photoDataUrl; $('#detailPhotoBox').hidden=false; } else { $('#detailPhotoBox').hidden=true; }
+      const photosArr = (res.photoDataUrls && res.photoDataUrls.length) ? res.photoDataUrls : (res.photoDataUrl ? [res.photoDataUrl] : []);
+      const pBox = $('#detailPhotoBox');
+      if (photosArr.length) {
+        pBox.hidden = false;
+        pBox.innerHTML = '<strong>Ekli fotoğraflar (' + photosArr.length + ')</strong>' +
+          '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:6px;">' +
+          photosArr.map((u, idx) => '<a href="' + u + '" target="_blank" rel="noopener"><img src="' + u + '" alt="Olay fotoğrafı ' + (idx+1) + '" style="max-height:170px;border-radius:6px;border:1px solid #d5e0e7;"></a>').join('') +
+          '</div>';
+      } else {
+        pBox.hidden = true;
+      }
       $('#evStatus').value = ['Yeni Bildirim','Değerlendiriliyor','Kapatıldı'].includes(r.status) ? r.status : 'Değerlendiriliyor';
       $('#evNotes').value = r.evaluationNotes || '';
       let savedMeta = {};
@@ -2720,8 +3314,12 @@
       $('#companyNameInput').value = serverName;
       if ($('#projectNameInput')) $('#projectNameInput').value = serverProject;
       $('#notificationEmailInput').value = s.notificationEmail;
+      if ($('#tgBotTokenInput')) $('#tgBotTokenInput').value = s.telegramBotToken || '';
+      if ($('#tgChatIdInput')) $('#tgChatIdInput').value = s.telegramChatId || '';
+      if ($('#webhookUrlInput')) $('#webhookUrlInput').value = s.webhookUrl || '';
       currentSupportAccess = s.supportAccess || 'DISABLED';
       renderSupportAccessBox();
+      renderWorkspaceQr(s.workspaceKey || (currentAdmin && currentAdmin.workspaceKey) || '');
       ['#fDepartment','#exDepartment'].forEach(id=>{ const el=$(id), p=el.value; el.innerHTML='<option value="">Tüm olay yerleri</option>'; s.departments.forEach(d=>{ const o=document.createElement('option'); o.value=d.name; o.textContent=d.isActive?d.name:d.name+' (Pasif)'; el.appendChild(o); }); el.value=p; });
       $('#deptManageList').innerHTML = s.departments.map(d=>'<li class="'+(d.isActive?'':'inactive')+'"><span>'+escapeHTML(d.name)+'</span><button type="button" class="mini-pill-btn" data-tdept="'+d.id+'">'+(d.isActive?'Pasifleştir':'Aktifleştir')+'</button></li>').join('');
       $$('[data-tdept]').forEach(b=>b.addEventListener('click', async ()=>{ await gasCall('toggleDepartment', adminToken, Number(b.dataset.tdept)); loadSettings(); initPublicConfig(false); toast('Olay yeri güncellendi'); }));
@@ -2752,6 +3350,280 @@
     $('#logoFileInput').addEventListener('change', e=>{ const f=e.target.files[0]; if(!f)return; const r=new FileReader(); r.onload=async()=>{ const b64=String(r.result).split(',')[1]; const res=await gasCall('uploadCustomLogo', adminToken, b64, f.type, f.name); const nextLogo = (res && res.logoDataUrl) ? res.logoDataUrl : r.result; try { localStorage.setItem('rk_company_logo', nextLogo); } catch {} applyCompanyBranding(undefined, nextLogo); toast('Logo güncellendi'); }; r.readAsDataURL(f); });
     $('#resetLogoBtn').addEventListener('click', async ()=>{ try { localStorage.removeItem('rk_company_logo'); } catch {} try { const res=await gasCall('resetCustomLogo', adminToken); applyCompanyBranding(undefined, (res && res.logoDataUrl && !isLegacyLogoUrl(res.logoDataUrl)) ? res.logoDataUrl : DEFAULT_LOGO_DATA_URI); } catch { applyCompanyBranding(undefined, DEFAULT_LOGO_DATA_URI); } toast('Varsayılan logoya dönüldü'); });
     $('#changePasswordForm').addEventListener('submit', async e=>{ e.preventDefault(); const r=await gasCall('changeAdminPassword', adminToken, $('#currentPassInput').value, $('#newPassInput').value); toast(r.ok?r.message:r.error, r.ok?'✓':'!'); if(r.ok) e.target.reset(); });
+
+    // Anlık Telegram / WhatsApp Webhook ayarları & testleri
+    async function saveInstantNotifsInternal() {
+      return gasCall('updateInstantNotifications', adminToken, {
+        telegramBotToken: $('#tgBotTokenInput')?.value.trim() || '',
+        telegramChatId: $('#tgChatIdInput')?.value.trim() || '',
+        webhookUrl: $('#webhookUrlInput')?.value.trim() || '',
+      });
+    }
+    $('#instantNotifForm')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      const r = await saveInstantNotifsInternal();
+      toast(r.ok ? r.message : r.error, r.ok ? '✓' : '!');
+    });
+    $('#testTgBtn')?.addEventListener('click', async () => {
+      const sv = await saveInstantNotifsInternal();
+      if (!sv.ok) return toast(sv.error, '!');
+      const r = await gasCall('testInstantNotification', adminToken, 'telegram');
+      toast(r.ok ? r.message : r.error, r.ok ? '✓' : '!');
+    });
+    $('#testWebhookBtn')?.addEventListener('click', async () => {
+      const sv = await saveInstantNotifsInternal();
+      if (!sv.ok) return toast(sv.error, '!');
+      const r = await gasCall('testInstantNotification', adminToken, 'webhook');
+      toast(r.ok ? r.message : r.error, r.ok ? '✓' : '!');
+    });
+
+    // Saf JS QR Kod Üretici (ISO 18004 Versions 1–10 Byte mode ECC L)
+    function makeQrMatrix(text) {
+      const bytes = new TextEncoder().encode(String(text || ''));
+      const CAP = [0, 17, 32, 53, 78, 106, 134, 154, 192, 230, 271];
+      const EC_LEN = [0, 7, 10, 15, 20, 26, 18, 20, 24, 30, 18];
+      const NUM_BLOCKS = [0, 1, 1, 1, 1, 1, 2, 2, 2, 2, 4];
+      const TOTAL_CW = [0, 26, 44, 70, 100, 134, 172, 196, 242, 292, 346];
+      const ALIGN = [[], [], [6,18], [6,22], [6,26], [6,30], [6,34], [6,22,38], [6,24,42], [6,26,46], [6,28,50]];
+      let ver = 1;
+      while (ver <= 10 && bytes.length > CAP[ver]) ver++;
+      if (ver > 10) ver = 10;
+      const maxB = CAP[ver];
+      const dataBytes = bytes.slice(0, maxB);
+      const bits = [];
+      const pushBits = (val, n) => { for (let i = n - 1; i >= 0; i--) bits.push((val >> i) & 1); };
+      pushBits(4, 4);
+      pushBits(dataBytes.length, ver >= 10 ? 16 : 8);
+      for (const b of dataBytes) pushBits(b, 8);
+      const totalDataCW = TOTAL_CW[ver] - EC_LEN[ver] * NUM_BLOCKS[ver];
+      const remBits = totalDataCW * 8 - bits.length;
+      pushBits(0, Math.min(4, Math.max(0, remBits)));
+      while (bits.length % 8 !== 0) bits.push(0);
+      const cw = [];
+      for (let i = 0; i < bits.length; i += 8) {
+        let v = 0; for (let k = 0; k < 8; k++) v = (v << 1) | bits[i + k]; cw.push(v);
+      }
+      const pads = [0xEC, 0x11];
+      for (let p = 0; cw.length < totalDataCW; p++) cw.push(pads[p % 2]);
+
+      const GF_EXP = new Uint8Array(512), GF_LOG = new Uint8Array(256);
+      for (let i = 0, x = 1; i < 255; i++) {
+        GF_EXP[i] = x; GF_EXP[i + 255] = x; GF_LOG[x] = i;
+        x <<= 1; if (x & 0x100) x ^= 0x11D;
+      }
+      const gfMul = (a, b) => (a && b) ? GF_EXP[GF_LOG[a] + GF_LOG[b]] : 0;
+      const rsGen = deg => {
+        let g = [1];
+        for (let i = 0; i < deg; i++) {
+          const ng = new Array(g.length + 1).fill(0);
+          const f = GF_EXP[i];
+          for (let j = 0; j < g.length; j++) { ng[j] ^= g[j]; ng[j + 1] ^= gfMul(g[j], f); }
+          g = ng;
+        }
+        return g;
+      };
+      const rsEnc = (msg, ecCount) => {
+        const gen = rsGen(ecCount), res = msg.concat(new Array(ecCount).fill(0));
+        for (let i = 0; i < msg.length; i++) {
+          const coef = res[i];
+          if (coef) for (let j = 0; j < gen.length; j++) res[i + j] ^= gfMul(gen[j], coef);
+        }
+        return res.slice(msg.length);
+      };
+
+      const nb = NUM_BLOCKS[ver], ecLen = EC_LEN[ver];
+      const baseLen = Math.floor(totalDataCW / nb), extra = totalDataCW % nb;
+      const dBlocks = [], eBlocks = [];
+      for (let b = 0, pos = 0; b < nb; b++) {
+        const len = baseLen + (b >= nb - extra ? 1 : 0);
+        const blk = cw.slice(pos, pos + len); pos += len;
+        dBlocks.push(blk); eBlocks.push(rsEnc(blk, ecLen));
+      }
+      const stream = [];
+      const maxD = baseLen + (extra ? 1 : 0);
+      for (let i = 0; i < maxD; i++) for (let b = 0; b < nb; b++) if (i < dBlocks[b].length) stream.push(dBlocks[b][i]);
+      for (let i = 0; i < ecLen; i++) for (let b = 0; b < nb; b++) stream.push(eBlocks[b][i]);
+
+      const N = ver * 4 + 17;
+      const mat = Array.from({ length: N }, () => new Array(N).fill(null));
+      const func = Array.from({ length: N }, () => new Array(N).fill(false));
+      const setF = (r, c, v) => { if (r >= 0 && r < N && c >= 0 && c < N) { mat[r][c] = v ? 1 : 0; func[r][c] = true; } };
+
+      const drawFinder = (r0, c0) => {
+        for (let dr = -1; dr <= 7; dr++) for (let dc = -1; dc <= 7; dc++) {
+          const rr = r0 + dr, cc = c0 + dc;
+          if (rr < 0 || rr >= N || cc < 0 || cc >= N) continue;
+          const in7 = dr >= 0 && dr <= 6 && dc >= 0 && dc <= 6;
+          const dark = in7 && (dr === 0 || dr === 6 || dc === 0 || dc === 6 || (dr >= 2 && dr <= 4 && dc >= 2 && dc <= 4));
+          setF(rr, cc, dark);
+        }
+      };
+      drawFinder(0, 0); drawFinder(0, N - 7); drawFinder(N - 7, 0);
+      for (let i = 8; i < N - 8; i++) { setF(6, i, i % 2 === 0); setF(i, 6, i % 2 === 0); }
+      const ap = ALIGN[ver];
+      for (const ar of ap) for (const ac of ap) {
+        if ((ar < 9 && ac < 9) || (ar < 9 && ac > N - 10) || (ar > N - 10 && ac < 9)) continue;
+        for (let dr = -2; dr <= 2; dr++) for (let dc = -2; dc <= 2; dc++) {
+          setF(ar + dr, ac + dc, Math.abs(dr) === 2 || Math.abs(dc) === 2 || (dr === 0 && dc === 0));
+        }
+      }
+      setF(4 * ver + 9, 8, true);
+      for (let i = 0; i <= 8; i++) {
+        if (!func[8][i]) setF(8, i, false);
+        if (!func[i][8]) setF(i, 8, false);
+      }
+      for (let i = 0; i < 8; i++) setF(8, N - 1 - i, false);
+      for (let i = 0; i < 7; i++) setF(N - 1 - i, 8, false);
+
+      const streamBits = [];
+      for (const by of stream) for (let k = 7; k >= 0; k--) streamBits.push((by >> k) & 1);
+      let bi = 0, up = true;
+      for (let col = N - 1; col > 0; col -= 2) {
+        if (col === 6) col--;
+        for (let i = 0; i < N; i++) {
+          const r = up ? (N - 1 - i) : i;
+          for (let dx = 0; dx < 2; dx++) {
+            const c = col - dx;
+            if (!func[r][c]) {
+              const bit = bi < streamBits.length ? streamBits[bi++] : 0;
+              mat[r][c] = bit ^ (((r + c) % 2 === 0) ? 1 : 0);
+            }
+          }
+        }
+        up = !up;
+      }
+
+      // Format info (ECC L = 01, mask 0 = 000 -> 01000 -> 15-bit BCH masked with 0x5412 = 0x77C4)
+      const fmtVal = 0x77C4;
+      const fmtBits = [];
+      for (let k = 14; k >= 0; k--) fmtBits.push((fmtVal >> k) & 1);
+      const c1 = [[8,0],[8,1],[8,2],[8,3],[8,4],[8,5],[8,7],[8,8],[7,8],[5,8],[4,8],[3,8],[2,8],[1,8],[0,8]];
+      const c2 = [[N-1,8],[N-2,8],[N-3,8],[N-4,8],[N-5,8],[N-6,8],[N-7,8],[8,N-8],[8,N-7],[8,N-6],[8,N-5],[8,N-4],[8,N-3],[8,N-2],[8,N-1]];
+      for (let i = 0; i < 15; i++) {
+        mat[c1[i][0]][c1[i][1]] = fmtBits[i];
+        mat[c2[i][0]][c2[i][1]] = fmtBits[i];
+      }
+      return mat;
+    }
+
+    function drawQrToCanvas(canvas, text, pxSize) {
+      const mat = makeQrMatrix(text);
+      const N = mat.length;
+      const quiet = 3;
+      const scale = Math.floor(pxSize / (N + quiet * 2)) || 4;
+      const dim = (N + quiet * 2) * scale;
+      canvas.width = dim; canvas.height = dim;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, dim, dim);
+      ctx.fillStyle = '#062f4d';
+      for (let r = 0; r < N; r++) {
+        for (let c = 0; c < N; c++) {
+          if (mat[r][c]) ctx.fillRect((c + quiet) * scale, (r + quiet) * scale, scale, scale);
+        }
+      }
+    }
+
+    function getWorkspaceQrUrl(wsKey) {
+      const base = (window.location.href.includes('script.google') && GAS_API_URL)
+        ? GAS_API_URL
+        : (window.location.origin + window.location.pathname);
+      return base + '?ws=' + encodeURIComponent(wsKey || '');
+    }
+
+    let currentWorkspaceQrUrl = '';
+    function renderWorkspaceQr(wsKey) {
+      if (!wsKey) return;
+      currentWorkspaceQrUrl = getWorkspaceQrUrl(wsKey);
+      const cv = $('#workspaceQrCanvas');
+      const txt = $('#workspaceQrUrlText');
+      if (txt) txt.textContent = currentWorkspaceQrUrl;
+      if (cv) drawQrToCanvas(cv, currentWorkspaceQrUrl, 160);
+    }
+
+    $('#copyQrUrlBtn')?.addEventListener('click', async () => {
+      if (!currentWorkspaceQrUrl) return;
+      try { await navigator.clipboard.writeText(currentWorkspaceQrUrl); } catch {}
+      toast('Şirkete özel bildirim linki kopyalandı');
+    });
+
+    $('#downloadQrPngBtn')?.addEventListener('click', () => {
+      if (!currentWorkspaceQrUrl) return;
+      const cv = document.createElement('canvas');
+      drawQrToCanvas(cv, currentWorkspaceQrUrl, 600);
+      cv.toBlob(blob => {
+        if (!blob) return;
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'Ramak-Kala-QR-' + ((currentAdmin && currentAdmin.companyName) || 'Sirket').replace(/\s+/g, '-') + '.png';
+        a.click();
+        URL.revokeObjectURL(a.href);
+        toast('QR kod PNG indirildi');
+      }, 'image/png');
+    });
+
+    $('#downloadQrPosterBtn')?.addEventListener('click', async () => {
+      if (!currentWorkspaceQrUrl) return;
+      const W = 1240, H = 1754;
+      const cv = document.createElement('canvas');
+      cv.width = W; cv.height = H;
+      const ctx = cv.getContext('2d');
+      ctx.fillStyle = '#ffffff'; ctx.fillRect(0, 0, W, H);
+      ctx.fillStyle = '#062f4d'; ctx.fillRect(0, 0, W, 300);
+      ctx.fillStyle = '#ee7d22'; ctx.fillRect(0, 300, W, 16);
+
+      try {
+        const logoSrc = $('[data-brand-logo]')?.src || DEFAULT_LOGO_DATA_URI;
+        const img = await new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = logoSrc; });
+        const sc = Math.min(180 / (img.naturalWidth || 100), 110 / (img.naturalHeight || 100));
+        const dw = (img.naturalWidth || 100) * sc, dh = (img.naturalHeight || 100) * sc;
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(70, 88, 210, 128);
+        ctx.drawImage(img, 70 + (210 - dw) / 2, 88 + (128 - dh) / 2, dw, dh);
+      } catch {}
+
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'left';
+      ctx.font = 'bold 46px Arial, sans-serif';
+      ctx.fillText(((currentAdmin && currentAdmin.companyName) || currentCompanyName || 'İŞ SAĞLIĞI VE GÜVENLİĞİ').slice(0, 28), 315, 145);
+      ctx.font = '30px Arial, sans-serif';
+      ctx.fillStyle = '#d3e5f2';
+      ctx.fillText(((currentAdmin && currentAdmin.projectName) || 'Ramak Kala Bildirim Sistemi').slice(0, 42), 315, 200);
+
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#062f4d';
+      ctx.font = 'bold 64px Arial, sans-serif';
+      ctx.fillText('RAMAK KALA BİLDİRİMİ', W / 2, 435);
+      ctx.fillStyle = '#ee7d22';
+      ctx.font = 'bold 34px Arial, sans-serif';
+      ctx.fillText('FARK ET · BİLDİR · ÖNLEYELİM', W / 2, 495);
+
+      const qrCv = document.createElement('canvas');
+      drawQrToCanvas(qrCv, currentWorkspaceQrUrl, 760);
+      const qx = (W - qrCv.width) / 2, qy = 560;
+      ctx.strokeStyle = '#cfe0eb'; ctx.lineWidth = 6;
+      ctx.strokeRect(qx - 24, qy - 24, qrCv.width + 48, qrCv.height + 48);
+      ctx.drawImage(qrCv, qx, qy);
+
+      ctx.fillStyle = '#062f4d';
+      ctx.font = 'bold 34px Arial, sans-serif';
+      ctx.fillText('Telefon kameranızla QR kodu okutarak', W / 2, qy + qrCv.height + 100);
+      ctx.fillText('1 dakikada isimsiz bildirim yapabilirsiniz.', W / 2, qy + qrCv.height + 150);
+
+      ctx.fillStyle = '#eef5fa'; ctx.fillRect(0, H - 140, W, 140);
+      ctx.fillStyle = '#4f6573'; ctx.font = '24px Arial, sans-serif';
+      ctx.fillText('Bir tehlikeyi fark etmek, bir hayatı kurtarabilir.', W / 2, H - 62);
+
+      cv.toBlob(blob => {
+        if (!blob) return;
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'Ramak-Kala-Afis-' + ((currentAdmin && currentAdmin.companyName) || 'Sirket').replace(/\s+/g, '-') + '.png';
+        a.click();
+        URL.revokeObjectURL(a.href);
+        toast('Yazdırılabilir QR afiş PNG indirildi');
+      }, 'image/png');
+    });
 
     function renderSupportAccessBox() {
       const enabled = currentSupportAccess === 'ENABLED';
@@ -2949,6 +3821,12 @@
         $('#saNavSupportBadge').hidden = !(m.openSupportCount > 0);
         $('#saNavFailedEmailBadge').hidden = !(m.failedEmailCount > 0);
         $('#saNewUser').value = d.username || 'sistemadmin';
+        if (d.announcement) {
+          if ($('#saAnnText')) $('#saAnnText').value = d.announcement.text || '';
+          if ($('#saAnnType')) $('#saAnnType').value = d.announcement.type || 'info';
+          if ($('#saAnnTarget')) $('#saAnnTarget').value = d.announcement.target || 'ALL';
+          renderAnnouncementBar(d.announcement, 'ADMINS');
+        }
 
         const wsList = d.workspaces || [];
         const wsOptionsHtml = wsList.map(w => '<option value="' + escapeHTML(w.workspaceKey) + '">' + escapeHTML(w.companyName + ' · ' + w.projectName) + '</option>').join('');
@@ -3180,18 +4058,49 @@
       if (r.ok) { $('#saNewDeptName').value = ''; loadSuperAdminAll(); }
     });
 
+    $('#saAnnouncementForm')?.addEventListener('submit', async e => {
+      e.preventDefault();
+      const text = $('#saAnnText').value.trim();
+      if (!text) return toast('Lütfen duyuru metni yazın', '!');
+      const r = await gasCall('superAdminSaveAnnouncement', superAdminToken, {
+        active: true,
+        text,
+        type: $('#saAnnType').value,
+        target: $('#saAnnTarget').value,
+      });
+      toast(r.ok ? r.message : r.error, r.ok ? '✓' : '!');
+      if (r.ok) renderAnnouncementBar(r.announcement, 'ADMINS');
+    });
+
+    $('#saClearAnnBtn')?.addEventListener('click', async () => {
+      const r = await gasCall('superAdminSaveAnnouncement', superAdminToken, {
+        active: false, text: '', type: 'info', target: 'ALL'
+      });
+      toast(r.ok ? r.message : r.error, r.ok ? '✓' : '!');
+      if (r.ok) {
+        $('#saAnnText').value = '';
+        renderAnnouncementBar(r.announcement, 'ADMINS');
+      }
+    });
+
     try {
       const sp = new URLSearchParams(window.location.search);
       if (sp.get('api')) localStorage.setItem('rk_gas_api_url', sp.get('api'));
       if (sp.get('adminReport')) openModal('adminLogin');
       if (typeof google !== 'undefined' && google.script && google.script.url && google.script.url.getLocation) {
         google.script.url.getLocation(function(loc) {
-          if (loc && loc.parameter && loc.parameter.adminReport) {
-            openModal('adminLogin');
+          if (loc && loc.parameter) {
+            if (loc.parameter.ws && !lockedWorkspaceKey) {
+              lockedWorkspaceKey = String(loc.parameter.ws).trim();
+              if (publicCompanies.length) renderCompanySelectors(publicCompanies);
+            }
+            if (loc.parameter.adminReport) {
+              openModal('adminLogin');
+            }
           }
         });
       }
     } catch(e) {}
   </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5f77a171d8ba062',t:'MTc5NTUxMzQ4NQ=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5f77a171d8ba062',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5f7a05fdd8e3647',t:'MTc5NTUxNTA1NA=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5f7a05fdd8e3647',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
