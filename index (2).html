@@ -7,7 +7,9 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="apple-mobile-web-app-title" content="Ramak Kala">
-  <link id="pwaManifestLink" rel="manifest" href="">
+  <link id="pwaManifestLink" rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
   <title>Ramak Kala Bildirim Sistemi</title>
   <style>
     :root {
@@ -725,6 +727,21 @@
       pointer-events: none;
     }
     .lang-switch button.active { background: var(--navy); color: #fff; }
+    .install-app-btn {
+      border: 1px solid #0d6fae;
+      background: #0d6fae;
+      color: #fff;
+      font-size: 12.5px;
+      font-weight: 750;
+      padding: 7px 12px;
+      border-radius: 7px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .install-app-btn:hover { background: #09598d; }
+    .install-app-btn[hidden] { display: none; }
     .track-strip {
       width: min(980px, calc(100% - 28px));
       margin: 0 auto 20px;
@@ -1314,6 +1331,7 @@
             DE
           </button>
         </div>
+        <button class="install-app-btn" id="pwaInstallBtn" type="button" hidden>📲 <span data-i18n="installAppBtn">Uygulamayı Yükle</span></button>
         <button class="admin-link" id="adminOpen" type="button">
           <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 0 1 5 5v2h1a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3v-7a3 3 0 0 1 3-3h1V7a5 5 0 0 1 5-5Zm0 2a3 3 0 0 0-3 3v2h6V7a3 3 0 0 0-3-3Z"/></svg>
           <span data-i18n="adminLoginBtn">Yönetici Girişi</span>
@@ -2176,6 +2194,18 @@
     </div>
   </section>
 
+  <div class="modal-backdrop" id="iosInstallModal" aria-hidden="true">
+    <div class="modal legal-modal">
+      <button class="modal-close" type="button" data-close="iosInstallModal">×</button>
+      <span class="modal-kicker">MOBİL UYGULAMA KURULUMU</span>
+      <h2>iPhone / iPad Ana Ekrana Ekle</h2>
+      <p>1. Safari alt menüsündeki <strong>Paylaş (↑)</strong> simgesine dokunun.</p>
+      <p>2. Aşağı kaydırıp <strong>“Ana Ekrana Ekle”</strong> seçeneğine dokunun ve <strong>Ekle</strong> deyin.</p>
+      <p>Bundan sonra Ramak Kala sistemi telefonunuzda tam ekran uygulama olarak açılacaktır.</p>
+      <button class="primary-btn full" type="button" data-close="iosInstallModal">ANLADIM</button>
+    </div>
+  </div>
+
   <div class="toast" id="toast"><span>✓</span><p></p></div>
 
   <script>
@@ -2457,6 +2487,7 @@
         pinLabel: 'Anonim Soru–Cevap PIN Kodunuz:',
         pinHint: 'Yönetici soru sorarsa bildirim no + PIN ile kimliğiniz gizli kalarak yanıt verebilirsiniz.',
         pinInputPh: 'PIN (İsteğe bağlı)',
+        installAppBtn: 'Uygulamayı Yükle',
       },
       en: {
         brandProduct: 'HSE Reporting System',
@@ -2557,6 +2588,7 @@
         pinLabel: 'Anonymous Q&A PIN Code:',
         pinHint: 'Keep this PIN with your report number to answer follow-up questions anonymously.',
         pinInputPh: 'PIN (Optional)',
+        installAppBtn: 'Install App',
       },
       ar: {
         brandProduct: 'نظام الإبلاغ عن السلامة',
@@ -2657,6 +2689,7 @@
         pinLabel: 'رمز PIN السري للأسئلة والأجوبة:',
         pinHint: 'احتفظ بهذا الرمز للرد على استفسارات المشرف بشكل مجهول.',
         pinInputPh: 'رمز PIN (اختياري)',
+        installAppBtn: 'تثبيت التطبيق',
       },
       ru: {
         brandProduct: 'Система Охраны Труда',
@@ -2757,6 +2790,7 @@
         pinLabel: 'Секретный PIN-код для диалога:',
         pinHint: 'Сохраните номер и PIN, чтобы анонимно отвечать на вопросы специалиста.',
         pinInputPh: 'PIN (Необязательно)',
+        installAppBtn: 'Установить',
       },
       de: {
         brandProduct: 'Arbeitsschutz-Meldesystem',
@@ -2857,6 +2891,7 @@
         pinLabel: 'Geheime Rückfrage-PIN:',
         pinHint: 'Mit dieser PIN können Sie Rückfragen anonym beantworten.',
         pinInputPh: 'PIN (Optional)',
+        installAppBtn: 'App installieren',
       }
     };
 
@@ -3155,32 +3190,85 @@
       toast('Fotoğraf işareti kaydedildi');
     });
 
-    // PWA Manifest & Çevrimdışı Kuyruk (IndexedDB + localStorage yedeği)
+    // PWA Manifest, Service Worker & Tek Tıkla Uygulama Yükleme (Android / iOS / Masaüstü)
+    let deferredInstallPrompt = null;
     (function initPwaSupport() {
-      try {
-        const iconCv = document.createElement('canvas');
-        iconCv.width = 192; iconCv.height = 192;
-        const ictx = iconCv.getContext('2d');
-        ictx.fillStyle = '#062f4d'; ictx.fillRect(0, 0, 192, 192);
-        ictx.strokeStyle = '#ee7d22'; ictx.lineWidth = 10;
-        ictx.strokeRect(18, 18, 156, 156);
-        ictx.fillStyle = '#ffffff'; ictx.font = 'bold 64px Arial, sans-serif';
-        ictx.textAlign = 'center'; ictx.textBaseline = 'middle';
-        ictx.fillText('İSG', 96, 98);
-        const iconUri = iconCv.toDataURL('image/png');
-        const manifest = {
-          name: 'Ramak Kala İSG Bildirim Sistemi',
-          short_name: 'Ramak Kala',
-          start_url: window.location.href,
-          display: 'standalone',
-          background_color: '#f6f8fa',
-          theme_color: '#062f4d',
-          icons: [{ src: iconUri, sizes: '192x192', type: 'image/png' }]
-        };
-        const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
-        const link = $('#pwaManifestLink');
-        if (link) link.href = URL.createObjectURL(blob);
-      } catch {}
+      const href = (window.location && window.location.href) || '';
+      const isGasIframe = href.includes('script.google') || href.includes('googleusercontent.com') || typeof google !== 'undefined';
+      const isStandalone = Boolean(
+        (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) ||
+        window.navigator.standalone === true
+      );
+      const installBtn = $('#pwaInstallBtn');
+
+      if (isGasIframe) {
+        try {
+          const basePwa = 'https://samilyildrm-cloud.github.io/ramak-kala/';
+          const manifest = {
+            name: 'Ramak Kala İSG Bildirim Sistemi',
+            short_name: 'Ramak Kala',
+            start_url: basePwa,
+            display: 'standalone',
+            background_color: '#062f4d',
+            theme_color: '#062f4d',
+            icons: [
+              { src: basePwa + 'icon-192.png', sizes: '192x192', type: 'image/png', purpose: 'any' },
+              { src: basePwa + 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'any' },
+              { src: basePwa + 'icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
+            ]
+          };
+          const blob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
+          const link = $('#pwaManifestLink');
+          if (link) link.href = URL.createObjectURL(blob);
+          const iconEl = document.querySelector('link[rel="icon"]');
+          if (iconEl) iconEl.href = basePwa + 'icon-192.png';
+          const appleEl = document.querySelector('link[rel="apple-touch-icon"]');
+          if (appleEl) appleEl.href = basePwa + 'apple-touch-icon.png';
+        } catch {}
+        return;
+      }
+
+      if ('serviceWorker' in navigator && (window.location.protocol === 'https:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1')) {
+        navigator.serviceWorker.register('./sw.js', { scope: './' }).catch(() => {});
+      }
+
+      const ua = navigator.userAgent || '';
+      const isIos = /iPhone|iPad|iPod/i.test(ua) && !window.MSStream;
+
+      if (!isStandalone && isIos && installBtn) {
+        installBtn.hidden = false;
+      }
+
+      window.addEventListener('beforeinstallprompt', e => {
+        e.preventDefault();
+        deferredInstallPrompt = e;
+        if (installBtn && !isStandalone) installBtn.hidden = false;
+      });
+
+      window.addEventListener('appinstalled', () => {
+        deferredInstallPrompt = null;
+        if (installBtn) installBtn.hidden = true;
+        toast('Ramak Kala uygulaması cihazınıza kuruldu');
+      });
+
+      installBtn?.addEventListener('click', async () => {
+        if (deferredInstallPrompt) {
+          deferredInstallPrompt.prompt();
+          try {
+            const choice = await deferredInstallPrompt.userChoice;
+            if (choice && choice.outcome === 'accepted') {
+              installBtn.hidden = true;
+            }
+          } catch {}
+          deferredInstallPrompt = null;
+          return;
+        }
+        if (isIos) {
+          openModal('iosInstallModal');
+          return;
+        }
+        toast('Tarayıcı menüsünden "Uygulamayı Yükle / Ana Ekrana Ekle" seçebilirsiniz');
+      });
     })();
 
     const OFFLINE_LS_KEY = 'rk_offline_outbox_v1';
@@ -5668,5 +5756,5 @@
       }
     } catch(e) {}
   </script>
-<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5f883097a30c671',t:'MTc5NTUyNDMzOA=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5f883097a30c671',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5f8df245d963a7f',t:'MTc5NTUyODExMA=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5f8df245d963a7f',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
